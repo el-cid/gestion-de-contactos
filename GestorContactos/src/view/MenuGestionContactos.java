@@ -7,7 +7,6 @@ package view;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,17 +29,25 @@ public class MenuGestionContactos extends JPanel {
    private JLabel labelNombre = new JLabel("   nombre ");
    private JLabel labelA = new JLabel("Apellido:");
    private JLabel labelApellido = new JLabel("  apellido ");
+   private JLabel labelFecha = new JLabel("Fecha de nacimiento: ");
    private JTextArea textAreaNombre = new JTextArea(1, 30);
    private JTextArea textAreaApellido = new JTextArea(1, 30);
-   
+   private Image contactPhoto = new Image();
    // Constructor to setup the GUI components and event handlers
    public MenuGestionContactos() {
         
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-                
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout());
-        
+        int i = 6;
+        int j = 3;
+        JPanel[][] panelHolder = new JPanel[i][j];    
+        setLayout(new GridLayout(i,j));
+
+        for(int m = 0; m < i; m++) {
+           for(int n = 0; n < j; n++) {
+              panelHolder[m][n] = new JPanel();
+              add(panelHolder[m][n]);
+           }
+        }
+                        
         JPanel panelBusqueda = new JPanel();
         panelBusqueda.setLayout(new GridLayout(2,1));
         JPanel panelNombre = new JPanel(new FlowLayout());
@@ -53,52 +60,42 @@ public class MenuGestionContactos extends JPanel {
         panelApellido.add(textAreaApellido);
         panelBusqueda.add(panelApellido);
         
-        topPanel.add(panelBusqueda);
-        this.add(topPanel);
+        panelHolder[0][1].add(panelBusqueda);
         
-        JPanel middlePanel = new JPanel(new GridLayout(1,3));
-
         JPanel panelButtonAnterior = new JPanel(new FlowLayout());
         panelButtonAnterior.add(buttonAnterior);
-        middlePanel.add(panelButtonAnterior);
+        panelHolder[3][0].add(panelButtonAnterior);
         
-        JPanel panelContacto = new JPanel();
-        panelContacto.setLayout(new BoxLayout(panelContacto, BoxLayout.Y_AXIS));
         JPanel panelY = new JPanel(new FlowLayout());
         panelY.add(label3);
-        panelContacto.add(panelY);
+        panelHolder[1][1].add(panelY);
         
-        JPanel panelX = new JPanel(new FlowLayout());
-        panelX.add(new JTextArea(20,20));
-        panelContacto.add(panelX);
+        panelHolder[2][1].add(contactPhoto);
         
         JPanel panel3A1 = new JPanel(new FlowLayout());
         panel3A1.add(labelN);
         panel3A1.add(labelNombre);
-        panelContacto.add(panel3A1);
+        panelHolder[3][1].add(panel3A1);
         JPanel panel3B1 = new JPanel(new FlowLayout());
         panel3B1.add(labelA);
         panel3B1.add(labelApellido);
-        panelContacto.add(panel3B1);
-        middlePanel.add(panelContacto);
+        panelHolder[4][1].add(panel3B1);
+        
 
         JPanel panel3C2 = new JPanel(new FlowLayout());
         panel3C2.add(buttonSiguiente);
-        middlePanel.add(panel3C2);
-        
-        this.add(middlePanel);       
-        
-        JPanel bottomPanel = new JPanel(new GridLayout(1,3));
+        panelHolder[3][2].add(panel3C2);
+                
         JPanel panel4A = new JPanel(new FlowLayout());
         panel4A.add(buttonModificar);
-        bottomPanel.add(panel4A);
+        panelHolder[5][0].add(panel4A);
         JPanel panel4B = new JPanel(new FlowLayout());
         panel4B.add(buttonAdd);
-        bottomPanel.add(panel4B);
+        panelHolder[5][1].add(panel4B);
         JPanel panel4C = new JPanel(new FlowLayout());
         panel4C.add(buttonEliminar);
-        bottomPanel.add(panel4C);
+        panelHolder[5][2].add(panel4C);
         
-        this.add(bottomPanel);
+        
     }
 }
