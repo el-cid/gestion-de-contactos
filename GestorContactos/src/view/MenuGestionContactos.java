@@ -24,6 +24,7 @@ public class MenuGestionContactos extends JPanel {
    private JButton buttonModificar = new JButton("Modificar contacto");
    private JButton buttonAdd = new JButton("Añadir contacto");
    private JButton buttonEliminar = new JButton("Eliminar contacto");
+   private JButton returnButton = new JButton("Regresar");
    private InteractiveBlock nameBlock = new InteractiveBlock();
    private InteractiveBlock lastNameBlock = new InteractiveBlock();
    private ContactView contact = new ContactView("static");
@@ -50,7 +51,7 @@ public class MenuGestionContactos extends JPanel {
         
         add(contact);
         
-        JPanel bottomPanel = new JPanel(new GridLayout(1,3));
+        JPanel bottomPanel = new JPanel(new GridLayout(1,4));
         
         JPanel panelButtonAdd = new JPanel(new FlowLayout());
         panelButtonAdd.add(buttonAdd);
@@ -64,7 +65,19 @@ public class MenuGestionContactos extends JPanel {
         panelButtonEliminar.add(buttonEliminar);
         bottomPanel.add(panelButtonEliminar);
         
+        JPanel panelButtonRegresar = new JPanel(new FlowLayout());
+        panelButtonRegresar.add(returnButton);
+        bottomPanel.add(panelButtonRegresar);
+        
         add(bottomPanel);
         
     }
+   
+   public JButton getReturnButton(){
+       return this.returnButton;
+   }
+   
+   public JButton getSelectionButton(){
+       return this.buttonModificar;
+   }
 }

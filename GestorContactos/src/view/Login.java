@@ -34,4 +34,7 @@ public class Login extends JPanel{
         buttonPanel.add( button );
         add( buttonPanel );
     }
+    public JButton getLoginButton(){
+        return this.button;
+    }
 }

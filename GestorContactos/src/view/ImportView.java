@@ -6,6 +6,7 @@
 package view;
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 public class ImportView extends JPanel{
     private InteractiveBlock userInput = new InteractiveBlock();
     private JButton button = new JButton("Importar");
+    private JButton returnButton = new JButton("Regresar");
     public ImportView(){
         JPanel headerPanel = new JPanel( new FlowLayout() );
         JLabel headerLabel = new JLabel( "Importar archivo" );
@@ -50,11 +52,20 @@ public class ImportView extends JPanel{
         });
 
         
-        JPanel bottomPanel = new JPanel( new FlowLayout() );
-        bottomPanel.add( button );
+        JPanel bottomPanel = new JPanel( new GridLayout(1,2) );
+        JPanel firstButtonPanel = new JPanel( new FlowLayout() );
+        firstButtonPanel.add(button);
+        JPanel secondButtonPanel = new JPanel( new FlowLayout() );
+        secondButtonPanel.add(returnButton);
+        bottomPanel.add( firstButtonPanel );
+        bottomPanel.add( secondButtonPanel );
         this.setLayout( new BoxLayout(this, BoxLayout.Y_AXIS) );
         this.add( headerPanel );
         this.add( userInput );
         this.add( bottomPanel );
+    }
+    
+    public JButton getReturnButton(){
+        return this.returnButton;
     }
 }

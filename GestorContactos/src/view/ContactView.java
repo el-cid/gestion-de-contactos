@@ -6,6 +6,7 @@
 package view;
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,6 +28,7 @@ public class ContactView extends JPanel{
     private TelephoneView telephonePanel;
     private JLabel headerLabel = new JLabel("Contacto");
     private JButton bottomButton = new JButton("Guardar cambios");
+    private JButton returnButton = new JButton("Regresar");
     
     public ContactView(String type){
         
@@ -57,11 +59,19 @@ public class ContactView extends JPanel{
         this.add(emailPanel);
         
         if ( this.type.equalsIgnoreCase("interactive") ){
-            JPanel bottomPanel = new JPanel(new FlowLayout());
-            bottomPanel.add(bottomButton);
+            JPanel bottomPanel = new JPanel(new GridLayout(1,2));
+            JPanel firstButtonPanel = new JPanel(new FlowLayout());
+            firstButtonPanel.add(bottomButton);
+            JPanel secondButtonPanel = new JPanel(new FlowLayout());
+            secondButtonPanel.add(returnButton);
+            bottomPanel.add(firstButtonPanel);
+            bottomPanel.add(secondButtonPanel);
             this.add(bottomPanel);
         }
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));       
     }
-
+    
+    public JButton getReturnButton(){
+        return this.returnButton;
+    }
 }

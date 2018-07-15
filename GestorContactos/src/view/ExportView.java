@@ -7,18 +7,11 @@ package view;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -29,6 +22,7 @@ import javax.swing.JPanel;
 public class ExportView extends JPanel{
     private StaticBlock fileName = new StaticBlock();
     private StaticBlock fileDirectory = new StaticBlock();
+    private JButton returnButton = new JButton("Regresar");
     private JButton buttonExportar = new JButton("Exportar");
     private JButton buttonSeleccionar = new JButton("Seleccionar ruta y nombre del archivo");
     public ExportView(){
@@ -47,8 +41,13 @@ public class ExportView extends JPanel{
         filePanel.add( fileDirectory );
         filePanel.add( fileName );
         
-        JPanel bottomPanel = new JPanel( new FlowLayout() );
-        bottomPanel.add( buttonExportar );
+        JPanel bottomPanel = new JPanel( new GridLayout(1,2) );
+        JPanel firstButtonPanel = new JPanel( new FlowLayout() );
+        firstButtonPanel.add(buttonExportar);
+        JPanel secondButtonPanel = new JPanel( new FlowLayout() );
+        secondButtonPanel.add(returnButton);
+        bottomPanel.add( firstButtonPanel );
+        bottomPanel.add( secondButtonPanel );
         
         buttonSeleccionar.addActionListener(new SaveL());
         
@@ -57,6 +56,10 @@ public class ExportView extends JPanel{
         this.add( secondPanel );
         this.add( filePanel );
         this.add( bottomPanel );
+    }
+    
+    public JButton getReturnButton(){
+        return this.returnButton;
     }
     
     class SaveL implements ActionListener {
