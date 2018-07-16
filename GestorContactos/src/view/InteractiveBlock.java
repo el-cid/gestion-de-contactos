@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
  * @author mizar
  */
 public class InteractiveBlock extends Block{
-    private JTextArea textArea = new JTextArea(1,15);
+    private JTextArea textArea = new JTextArea(1,15); 
     
     public InteractiveBlock(){
         JPanel secondPanel = new JPanel(new FlowLayout());

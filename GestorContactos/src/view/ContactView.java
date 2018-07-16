@@ -19,15 +19,13 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
  * @author mizar
  */
 public class ContactView extends JPanel {      
-   private int rows = 15;
-   private int columns = 1;
+   private int rows = 12;
    private int row = 0;
-   private int column = 0;
-   private int numTelefonos = 2;
-   private int numEmails = 2;
-   private int numDirecciones = 2;
-   private JPanel[][] panelHolder = new JPanel[rows][columns];    
-   private JButton button = new JButton("¿Aceptar?");
+   private int numTelefonos = 0;
+   private int numEmails = 0;
+   private int numDirecciones = 0;
+   private JPanel[] panelHolder = new JPanel[rows];    
+   private JButton button = new JButton("Guardar cambios");
    private JLabel labelHeader = new JLabel("Contacto");
    private JLabel labelFecha = new JLabel("Fecha de nacimiento:");
    private JDatePickerImpl datePicker;
@@ -35,46 +33,40 @@ public class ContactView extends JPanel {
    private JLabel labelEmail = new JLabel("Email:");
    private JLabel labelAddress = new JLabel("Dirección:");
    private Image contactPhoto = new Image();
-   private StaticBlock formattedNameBlock = new StaticBlock();
-   private StaticBlock[] nameBlock = new StaticBlock[5];
-   private StaticBlock[][] addressBlock = new StaticBlock[numDirecciones][8];
-   private StaticBlock[][] telephoneBlock = new StaticBlock[numTelefonos][2];
-   private StaticBlock[][] emailBlock = new StaticBlock[numEmails][2];
-   // Constructor to setup the GUI components and event handlers
+   private InteractiveBlock formattedNameBlock = new InteractiveBlock();
+   private InteractiveBlock[] nameBlock = new InteractiveBlock[5];
+   private InteractiveBlock[][] addressBlock = new InteractiveBlock[numDirecciones][8];
+   private JButton[] deleteAddressButtons = new JButton[numDirecciones];
+   private JButton addAddressButton = new JButton("+");
+   private InteractiveBlock[][] telephoneBlock = new InteractiveBlock[numTelefonos][2];
+   private JButton[] deleteTelButtons = new JButton[numTelefonos];
+   private JButton addTelButton = new JButton("+");
+   private InteractiveBlock[][] emailBlock = new InteractiveBlock[numEmails][2];
+   private JButton[] deleteEmailButtons = new JButton[numEmails];
+   private JButton addEmailButton = new JButton("+");   
+// Constructor to setup the GUI components and event handlers
    public ContactView() {
         
-        setLayout(new GridLayout(rows,columns));
+        setLayout(new GridLayout(rows,1));
 
-        for(int m = 0; m < rows; m++) {
-           for(int n = 0; n < columns; n++) {
-              panelHolder[m][n] = new JPanel();
-              add(panelHolder[m][n]);
-           }
+        for(int m = 0; m < rows; m++) {           
+              panelHolder[m] = new JPanel();
+              add(panelHolder[m]);
         }
         
         JPanel panelY = new JPanel(new FlowLayout());
         panelY.add(labelHeader);
-        panelHolder[row++][0].add(panelY);
+        panelHolder[row++].add(panelY);
         
-        panelHolder[row++][0].add(contactPhoto);
+        panelHolder[row++].add(contactPhoto);
         
         formattedNameBlock.getTitleLabel().setText("Formatted Name:");
-        formattedNameBlock.getContentLabel().setText("formatted name");
-        panelHolder[row++][0].add(formattedNameBlock);
+        formattedNameBlock.getTextArea().setText("formatted name");
+        panelHolder[row++].add(formattedNameBlock);
         
-        initNameBlock();
-        /*for ( int i = 0; i < nameBlock.length; i++){
-            if ( i < 3 ){
-                panelHolder[row][0].add(nameBlock[i]);
-            }
-            else{
-                panelHolder[ row + 1 ][0].add(nameBlock[i]);
-            }
-        }
-        row += 2;*/
-        
-        for ( StaticBlock block : nameBlock ){
-            panelHolder[row][0].add(block);
+        initNameBlock();    
+        for ( InteractiveBlock block : nameBlock ){
+            panelHolder[row].add(block);
         }
         ++row;
         
@@ -84,49 +76,55 @@ public class ContactView extends JPanel {
         JDatePanelImpl datePanel = new JDatePanelImpl(model);
         datePicker = new JDatePickerImpl(datePanel);
         panel3F1.add(datePicker);
-        panelHolder[row++][0].add(panel3F1);
+        panelHolder[row++].add(panel3F1);
         
         JPanel panel3K1 = new JPanel(new FlowLayout());
         panel3K1.add(labelTelefono);
-        panelHolder[row++][0].add(panel3K1);
+        panelHolder[row++].add(panel3K1);
         
         String[] phoneTags = {"Type:","type","Number:","number"};
         initMultiBlock(telephoneBlock,phoneTags);
-        for ( StaticBlock[] blockPair : telephoneBlock ){
-            panelHolder[row][0].add(blockPair[0]);
-            panelHolder[row++][0].add(blockPair[1]);
+        for ( int i = 0; i < telephoneBlock.length; i++ ){
+            InteractiveBlock[] blockPair = telephoneBlock[i];
+            panelHolder[row].add(blockPair[0]);
+            panelHolder[row].add(blockPair[1]);
+            deleteTelButtons[i] = new JButton("X");
+            panelHolder[row++].add(deleteTelButtons[i++]);
         }
-        
+        panelHolder[row++].add(addTelButton);
         
         JPanel panel3V1 = new JPanel(new FlowLayout());
         panel3V1.add(labelEmail);
-        panelHolder[row++][0].add(panel3V1);
+        panelHolder[row++].add(panel3V1);
         
         String[] emailTags = {"Type:","type","Email:","email"};
         initMultiBlock(emailBlock, emailTags);
-        for ( StaticBlock[] blockPair : emailBlock ){
-            panelHolder[row][0].add(blockPair[0]);
-            panelHolder[row++][0].add(blockPair[1]);
+        for ( int i = 0; i < emailBlock.length; i++ ){
+            InteractiveBlock[] blockPair = emailBlock[i];
+            panelHolder[row].add(blockPair[0]);
+            panelHolder[row].add(blockPair[1]);
+            deleteEmailButtons[i] = new JButton("X");
+            panelHolder[row++].add(deleteEmailButtons[i]);
         }
+        panelHolder[row++].add(addEmailButton);
         
         JPanel panel3X1 = new JPanel(new FlowLayout());
         panel3X1.add(labelAddress);
-        panelHolder[row++][0].add(panel3X1);
+        panelHolder[row++].add(panel3X1);
         
-        //
         initAddressBlock(addressBlock);
-        for ( StaticBlock[] address : addressBlock ){
-            for ( StaticBlock block : address ){
-                panelHolder[row][0].add(block);
+        for ( int i = 0; i < addressBlock.length; i++ ){
+            for ( InteractiveBlock block : addressBlock[i] ){
+                panelHolder[row].add(block);
             }
-            ++row;
+            deleteAddressButtons[i] = new JButton("X");
+            panelHolder[row++].add(deleteAddressButtons[i]);
         }
-        
-        //
+        panelHolder[row++].add(addAddressButton);
         
         JPanel panel3C2 = new JPanel(new FlowLayout());
         panel3C2.add(button);
-        panelHolder[ rows-1 ][0].add(panel3C2);
+        panelHolder[ rows-1 ].add(panel3C2);
                         
     }
    
@@ -139,24 +137,26 @@ public class ContactView extends JPanel {
                           "honorific suffix"};
        
        for (int i = 0; i < nameBlock.length; i++){
-           StaticBlock block = new StaticBlock();
+           InteractiveBlock block = new InteractiveBlock();
            block.getTitleLabel().setText(attributes[i]);
-           block.getContentLabel().setText(values[i]);
+           block.getTextArea().setColumns(8);
+           block.getTextArea().setText(values[i]);
            nameBlock[i] = block;
        }
    }
-   private void initAddressBlock(StaticBlock[][] blocks){
+
+   private void initAddressBlock(InteractiveBlock[][] blocks){
        String[] attributes = {"Type:",
-                                "Post-Office-Address:",
-                                "Extended Address:",
+                                "Post-Office:",
+                                "Extended:",
                                 "Street:",
                                 "Locality:",
                                 "Region:",
                                 "Postal Code:",
                                 "Country:"};
        String[] values = {"type",
-                                "postOfficeAddress",
-                                "extendedAddress",
+                                "postOffice",
+                                "extendedAd",
                                 "street",
                                 "locality",
                                 "region",
@@ -165,24 +165,34 @@ public class ContactView extends JPanel {
        
        for (int i = 0; i < blocks.length; i++){
            for (int j = 0; j < blocks[i].length; j++){
-                StaticBlock block = new StaticBlock();
+                InteractiveBlock block = new InteractiveBlock();
                 block.getTitleLabel().setText(attributes[j]);
-                block.getContentLabel().setText(values[j]);
+                if (j == 0){
+                    block.getTextArea().setColumns(3);
+                }
+                else{
+                    block.getTextArea().setColumns(5);
+                }
+                
+                block.getTextArea().setText(values[j]);
                 blocks[i][j] = block;
            }
        }
    }
 
-   private void initMultiBlock(StaticBlock[][] multiBlock, String[] tags){
+   private void initMultiBlock(InteractiveBlock[][] multiBlock, String[] tags){
        for (int i = 0; i < multiBlock.length; i++){        
-           StaticBlock upperBlock = new StaticBlock();
+           InteractiveBlock upperBlock = new InteractiveBlock();
            upperBlock.getTitleLabel().setText(tags[0]);
-           upperBlock.getContentLabel().setText(tags[1]);
+           upperBlock.getTextArea().setColumns(3);
+           upperBlock.getTextArea().setText(tags[1]);
            multiBlock[i][0] = upperBlock;
-           StaticBlock lowerBlock = new StaticBlock();
+           InteractiveBlock lowerBlock = new InteractiveBlock();
            lowerBlock.getTitleLabel().setText(tags[2]);
-           lowerBlock.getContentLabel().setText(tags[3]);
+           upperBlock.getTextArea().setColumns(5);
+           lowerBlock.getTextArea().setText(tags[3]);
            multiBlock[i][1] = lowerBlock;
        }
    }
+
 }

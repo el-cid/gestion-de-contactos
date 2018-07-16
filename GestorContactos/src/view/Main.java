@@ -22,7 +22,6 @@ public class Main extends JFrame {
    
    // Constructor to setup the GUI components and event handlers
    public Main() {
-        
         mainPanel = new ContactView();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Exit program if close-window button clicked
