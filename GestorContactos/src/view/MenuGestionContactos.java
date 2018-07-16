@@ -22,6 +22,8 @@ public class MenuGestionContactos extends JPanel {
    private JButton buttonModificar = new JButton("Modificar contacto");
    private JButton buttonAdd = new JButton("Añadir contacto");
    private JButton buttonEliminar = new JButton("Eliminar contacto");
+   private InteractiveBlock nameBlock = new InteractiveBlock();
+   private InteractiveBlock lastNameBlock = new InteractiveBlock();
    private JLabel label1 = new JLabel("   Nombre: ");
    private JLabel label2 = new JLabel(" Apellido: ");
    private JLabel label3 = new JLabel("  Contacto ");
@@ -32,7 +34,7 @@ public class MenuGestionContactos extends JPanel {
    private JLabel labelFecha = new JLabel("Fecha de nacimiento: ");
    private JTextArea textAreaNombre = new JTextArea(1, 30);
    private JTextArea textAreaApellido = new JTextArea(1, 30);
-   private Image contactPhoto = new Image();
+   private PhotoView contactPhoto = new PhotoView();
    // Constructor to setup the GUI components and event handlers
    public MenuGestionContactos() {
         

@@ -6,39 +6,39 @@
 package view;
 
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
  * @author mizar
  */
-public class test extends JFrame{
-   private JPanel mainPanel = new JPanel(new GridLayout(2,1));
+public class AddressView extends JPanel{
+   private JPanel addressTopPanel = new JPanel(new FlowLayout());
    private JPanel addressMiddlePanel = new JPanel();
    private JPanel addressBottomPanel = new JPanel(new FlowLayout());
+   private JLabel header = new JLabel("Dirección:");
    private JButton addAddressButton = new JButton("+");
    private ArrayList<InteractiveBlock[]> addressBlock = new ArrayList<InteractiveBlock[]>();
    private ArrayList<JButton> deleteAddressButtons = new ArrayList<JButton>();
    private ArrayList<JPanel> addressMiddleList = new ArrayList<JPanel>();
    // Constructor to setup the GUI components and event handlers
-    public test() {
-
-        mainPanel.add(addressMiddlePanel);
+    public AddressView() {
+        
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        addressTopPanel.add( header );
+        this.add(addressTopPanel);
+        addressMiddlePanel.setLayout(new BoxLayout(addressMiddlePanel,BoxLayout.Y_AXIS));
+        this.add(addressMiddlePanel);
         addressBottomPanel.add(addAddressButton);
         addAddressButton.addActionListener(new AddAddressListener());
-        mainPanel.add(addressBottomPanel);
+        this.add(addressBottomPanel);
         
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Exit program if close-window button clicked
-        setTitle("Mis contactos"); // "super" JFrame sets title
-        setSize(850, 150);         // "super" JFrame sets initial size
-        setVisible(true);          // "super" JFrame shows
     }
     
     private void addToAddressBlock(){
@@ -126,7 +126,4 @@ public class test extends JFrame{
         }
     }
     
-    public static void main(String[] args) {
-        new test();
-    }
 }

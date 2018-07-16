@@ -9,25 +9,30 @@ package view;
  *
  * @author mizar
  */
+import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class Image extends JLabel{
+public class PhotoView extends JPanel{
+    private JLabel label = new JLabel();
     private ImageIcon icon = new ImageIcon();
     private BufferedImage img;
     
-    public Image(){
+    public PhotoView(){
         configure("default.png");
+        this.add(label);
+        this.setLayout( new FlowLayout() );
     }
     
     public void configure(String value){
         try {
             this.img = ImageIO.read(getClass().getResource("/resources/" + value));
             this.icon.setImage(img);
-            this.setIcon(this.icon);
+            label.setIcon(this.icon);
             } catch (Exception ex) { System.out.println(ex);}
     }
 }
+
