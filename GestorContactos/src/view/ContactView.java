@@ -7,7 +7,9 @@ package view;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -44,30 +46,50 @@ public class ContactView extends JPanel {
    private InteractiveBlock[][] emailBlock = new InteractiveBlock[numEmails][2];
    private JButton[] deleteEmailButtons = new JButton[numEmails];
    private JButton addEmailButton = new JButton("+");   
-// Constructor to setup the GUI components and event handlers
+   private ArrayList<JPanel> topList = new ArrayList<JPanel>();
+   private ArrayList<JPanel> telephoneList = new ArrayList<JPanel>();
+   private ArrayList<JPanel> emailList = new ArrayList<JPanel>();
+   private ArrayList<JPanel> addressList = new ArrayList<JPanel>();
+   private ArrayList<JPanel> bottomList = new ArrayList<JPanel>();
+   private ArrayList<ArrayList<JPanel>> wholeList = new ArrayList<ArrayList<JPanel>>();
+   // Constructor to setup the GUI components and event handlers
    public ContactView() {
         
         setLayout(new GridLayout(rows,1));
-
+       
         for(int m = 0; m < rows; m++) {           
               panelHolder[m] = new JPanel();
               add(panelHolder[m]);
         }
+   
+        wholeList.add(topList);
+        wholeList.add(telephoneList);
+        wholeList.add(emailList);
+        wholeList.add(addressList);
+        wholeList.add(bottomList);
         
         JPanel panelY = new JPanel(new FlowLayout());
         panelY.add(labelHeader);
-        panelHolder[row++].add(panelY);
+        panelHolder[row++].add(panelY);//
+        topList.add(panelY);
         
-        panelHolder[row++].add(contactPhoto);
+        JPanel panelZ = new JPanel(new FlowLayout());
+        panelZ.add(contactPhoto);
+        panelHolder[row++].add(panelZ);//
+        topList.add(panelZ);
         
         formattedNameBlock.getTitleLabel().setText("Formatted Name:");
         formattedNameBlock.getTextArea().setText("formatted name");
-        panelHolder[row++].add(formattedNameBlock);
+        panelHolder[row++].add(formattedNameBlock);//
+        topList.add(formattedNameBlock);
         
         initNameBlock();    
+        JPanel panelZX = new JPanel(new FlowLayout());
         for ( InteractiveBlock block : nameBlock ){
-            panelHolder[row].add(block);
+            panelHolder[row].add(block);//
+            //?panelZX.add(block);
         }
+        //?topList.add(panelZX);
         ++row;
         
         JPanel panel3F1 = new JPanel(new FlowLayout());
@@ -76,11 +98,13 @@ public class ContactView extends JPanel {
         JDatePanelImpl datePanel = new JDatePanelImpl(model);
         datePicker = new JDatePickerImpl(datePanel);
         panel3F1.add(datePicker);
-        panelHolder[row++].add(panel3F1);
+        panelHolder[row++].add(panel3F1);//
+        topList.add(panel3F1);
         
         JPanel panel3K1 = new JPanel(new FlowLayout());
         panel3K1.add(labelTelefono);
-        panelHolder[row++].add(panel3K1);
+        panelHolder[row++].add(panel3K1);//
+        telephoneList.add(panel3K1);
         
         String[] phoneTags = {"Type:","type","Number:","number"};
         initMultiBlock(telephoneBlock,phoneTags);
@@ -91,11 +115,16 @@ public class ContactView extends JPanel {
             deleteTelButtons[i] = new JButton("X");
             panelHolder[row++].add(deleteTelButtons[i++]);
         }
-        panelHolder[row++].add(addTelButton);
+        
+        JPanel panel3W1 = new JPanel(new FlowLayout());
+        panel3W1.add(addTelButton);
+        telephoneList.add(panel3W1);
+        panelHolder[row++].add(addTelButton);//
         
         JPanel panel3V1 = new JPanel(new FlowLayout());
         panel3V1.add(labelEmail);
-        panelHolder[row++].add(panel3V1);
+        panelHolder[row++].add(panel3V1);//
+        emailList.add(panel3V1);
         
         String[] emailTags = {"Type:","type","Email:","email"};
         initMultiBlock(emailBlock, emailTags);
@@ -106,11 +135,16 @@ public class ContactView extends JPanel {
             deleteEmailButtons[i] = new JButton("X");
             panelHolder[row++].add(deleteEmailButtons[i]);
         }
-        panelHolder[row++].add(addEmailButton);
+        
+        JPanel panel3N1 = new JPanel(new FlowLayout());
+        panel3N1.add(addEmailButton);
+        emailList.add(panel3N1);
+        panelHolder[row++].add(addEmailButton);//
         
         JPanel panel3X1 = new JPanel(new FlowLayout());
         panel3X1.add(labelAddress);
-        panelHolder[row++].add(panel3X1);
+        addressList.add(panel3X1);
+        panelHolder[row++].add(panel3X1);//
         
         initAddressBlock(addressBlock);
         for ( int i = 0; i < addressBlock.length; i++ ){
@@ -120,12 +154,16 @@ public class ContactView extends JPanel {
             deleteAddressButtons[i] = new JButton("X");
             panelHolder[row++].add(deleteAddressButtons[i]);
         }
-        panelHolder[row++].add(addAddressButton);
+    
+        JPanel panel3U1 = new JPanel(new FlowLayout());
+        panel3U1.add(addAddressButton);
+        addressList.add(panel3U1);    
+        panelHolder[row++].add(addAddressButton);//
         
         JPanel panel3C2 = new JPanel(new FlowLayout());
         panel3C2.add(button);
-        panelHolder[ rows-1 ].add(panel3C2);
-                        
+        panelHolder[ rows-1 ].add(panel3C2);//
+        bottomList.add(panel3C2);
     }
    
    private void initNameBlock(){
@@ -194,5 +232,18 @@ public class ContactView extends JPanel {
            multiBlock[i][1] = lowerBlock;
        }
    }
+   
+   private void configureLayout(){
+        int elements = 0;
+        for ( ArrayList<JPanel> list : wholeList ){
+           elements += list.size();
+        }
+        setLayout(new GridLayout(elements,1));
 
+        for ( ArrayList<JPanel> list : wholeList ) {           
+            for ( JPanel panel : list ){  
+                add(panel);
+            }
+        }
+   }
 }
