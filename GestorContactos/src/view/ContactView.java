@@ -17,16 +17,35 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class ContactView extends JPanel{
-    private AddressView addressPanel  = new AddressView();
-    private BirthdayView birthdayPanel = new BirthdayView();
-    private EmailView emailPanel = new EmailView();
-    private FormattedNameView formattedNamePanel = new FormattedNameView();
-    private NameView namePanel = new NameView();
-    private PhotoView photoPanel = new PhotoView();
-    private TelephoneView telephonePanel = new TelephoneView();
+    
+    private String type = "";
+    private AddressView addressPanel;
+    private BirthdayView birthdayPanel;
+    private EmailView emailPanel;
+    private FormattedNameView formattedNamePanel;
+    private NameView namePanel;
+    private PhotoView photoPanel;
+    private TelephoneView telephonePanel;
     private JLabel headerLabel = new JLabel("Contacto");
     private JButton bottomButton = new JButton("Guardar cambios");
-    public ContactView(){
+    
+    public ContactView(String type){
+        
+        this.type = type;
+        addressPanel  = new AddressView(this.type);
+        birthdayPanel = new BirthdayView();
+        emailPanel = new EmailView(this.type);
+        formattedNamePanel = new FormattedNameView(this.type);
+        namePanel = new NameView(this.type);
+        photoPanel = new PhotoView();
+        telephonePanel = new TelephoneView(this.type);
+        
+        if ( this.type.equalsIgnoreCase("static") ){
+            addressPanel.addAddress();
+            emailPanel.addEmail();
+            telephonePanel.addTelephone();
+        }
+        
         JPanel headerPanel = new JPanel(new FlowLayout());
         headerPanel.add(headerLabel);
         this.add(headerPanel);
@@ -37,9 +56,12 @@ public class ContactView extends JPanel{
         this.add(telephonePanel);
         this.add(addressPanel);
         this.add(emailPanel);
-        JPanel bottomPanel = new JPanel(new FlowLayout());
-        bottomPanel.add(bottomButton);
-        this.add(bottomPanel);
+        
+        if ( this.type.equalsIgnoreCase("interactive") ){
+            JPanel bottomPanel = new JPanel(new FlowLayout());
+            bottomPanel.add(bottomButton);
+            this.add(bottomPanel);
+        }
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));       
     }
 

@@ -25,7 +25,7 @@ public class testMenuGestionContactos extends JPanel {
    private JButton buttonEliminar = new JButton("Eliminar contacto");
    private InteractiveBlock nameBlock = new InteractiveBlock();
    private InteractiveBlock lastNameBlock = new InteractiveBlock();
-   private ContactView contact = new ContactView();
+   private ContactView contact = new ContactView("static");
    // Constructor to setup the GUI components and event handlers
    public testMenuGestionContactos() {
         

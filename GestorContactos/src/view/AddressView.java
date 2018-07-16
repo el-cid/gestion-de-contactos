@@ -19,26 +19,28 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class AddressView extends JPanel{
+   private String type = "";
    private JPanel addressTopPanel = new JPanel(new FlowLayout());
    private JPanel addressMiddlePanel = new JPanel();
    private JPanel addressBottomPanel = new JPanel(new FlowLayout());
    private JLabel header = new JLabel("Dirección:");
    private JButton addAddressButton = new JButton("+");
-   private ArrayList<InteractiveBlock[]> addressBlock = new ArrayList<InteractiveBlock[]>();
+   private ArrayList<Block[]> addressBlock = new ArrayList<Block[]>();
    private ArrayList<JButton> deleteAddressButtons = new ArrayList<JButton>();
    private ArrayList<JPanel> addressMiddleList = new ArrayList<JPanel>();
    // Constructor to setup the GUI components and event handlers
-    public AddressView() {
-        
+    public AddressView(String type) {
+        this.type = type;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         addressTopPanel.add( header );
         this.add(addressTopPanel);
         addressMiddlePanel.setLayout(new BoxLayout(addressMiddlePanel,BoxLayout.Y_AXIS));
         this.add(addressMiddlePanel);
-        addressBottomPanel.add(addAddressButton);
-        addAddressButton.addActionListener(new AddAddressListener());
-        this.add(addressBottomPanel);
-        
+        if ( type.equalsIgnoreCase("interactive") ){
+            addressBottomPanel.add(addAddressButton);
+            addAddressButton.addActionListener(new AddAddressListener());
+            this.add(addressBottomPanel);
+        }
     }
     
     private void addToAddressBlock(){
@@ -60,33 +62,46 @@ public class AddressView extends JPanel{
                                 "country"};
        
            int top = addressBlock.size();
-           addressBlock.add(new InteractiveBlock[8]);
-           for (int j = 0; j < 8; j++){
-                addressBlock.get(top)[j] = new InteractiveBlock();
-                addressBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
-                if (j == 0){
-                    addressBlock.get(top)[j].getTextArea().setColumns(3);
+           if ( this.type.equalsIgnoreCase("interactive") ){
+                addressBlock.add(new InteractiveBlock[8]);
+                for (int j = 0; j < 8; j++){
+                     addressBlock.get(top)[j] = new InteractiveBlock();
+                     addressBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
+                     InteractiveBlock newBlock = (InteractiveBlock) addressBlock.get(top)[j];
+                     if (j == 0){
+                         newBlock.getTextArea().setColumns(3);
+                     }
+                     else{
+                         newBlock.getTextArea().setColumns(5);
+                     }
+                     newBlock.getTextArea().setText(values[j]);
                 }
-                else{
-                    addressBlock.get(top)[j].getTextArea().setColumns(5);
-                }
-                
-                addressBlock.get(top)[j].getTextArea().setText(values[j]);
            }
-       }
+           else if ( this.type.equalsIgnoreCase("static") ){
+                addressBlock.add(new StaticBlock[8]);
+                for (int j = 0; j < 8; j++){
+                     addressBlock.get(top)[j] = new StaticBlock();
+                     addressBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
+                     StaticBlock newBlock = (StaticBlock) addressBlock.get(top)[j];
+                     newBlock.getContentLabel().setText(values[j]);
+                }
+           }
+    }
     
     private void addToAddressMiddleList(){
         int size = addressMiddleList.size();
         addressMiddleList.add(new JPanel(new FlowLayout()));
-        for ( InteractiveBlock blockPair : addressBlock.get(size) ){
+        for ( Block blockPair : addressBlock.get(size) ){
             addressMiddleList.get(size).add(blockPair);
         }
-        deleteAddressButtons.add(new JButton("X"));
-        deleteAddressButtons.get(size).addActionListener(new DeleteAddressListener());
-        addressMiddleList.get(size).add(deleteAddressButtons.get(size));
+        if ( this.type.equalsIgnoreCase("interactive") ){
+            deleteAddressButtons.add(new JButton("X"));
+            deleteAddressButtons.get(size).addActionListener(new DeleteAddressListener());
+            addressMiddleList.get(size).add(deleteAddressButtons.get(size));
+        }
     }
         
-    private void addAddress(){
+    public void addAddress(){
         addToAddressBlock();
         addToAddressMiddleList();
         addressMiddlePanel.add(addressMiddleList.get( addressMiddleList.size() - 1 ));

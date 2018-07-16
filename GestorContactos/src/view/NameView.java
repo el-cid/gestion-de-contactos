@@ -13,12 +13,14 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class NameView extends JPanel{
-    private InteractiveBlock[] nameBlock = new InteractiveBlock[5];
+    private String type = "";
+    private Block[] nameBlock = new Block[5];
     
-    public NameView(){
+    public NameView(String type){
+        this.type = type;
         initNameBlock();    
         JPanel panel = new JPanel(new FlowLayout());
-        for ( InteractiveBlock block : nameBlock ){
+        for ( Block block : nameBlock ){
             panel.add(block);
         }
         this.add(panel);
@@ -33,12 +35,22 @@ public class NameView extends JPanel{
                           "additional name" , "honorific preffix",
                           "honorific suffix"};
        
-        for (int i = 0; i < nameBlock.length; i++){
-            InteractiveBlock block = new InteractiveBlock();
-            block.getTitleLabel().setText(attributes[i]);
-            block.getTextArea().setColumns(8);
-            block.getTextArea().setText(values[i]);
-            nameBlock[i] = block;
-       }
-   }
+        if ( this.type.equalsIgnoreCase("interactive") ){
+            for (int i = 0; i < nameBlock.length; i++){
+                InteractiveBlock block = new InteractiveBlock();
+                block.getTitleLabel().setText(attributes[i]);
+                block.getTextArea().setColumns(8);
+                block.getTextArea().setText(values[i]);
+                nameBlock[i] = block;
+            }
+        }
+        else if ( this.type.equalsIgnoreCase("static") ){
+            for (int i = 0; i < nameBlock.length; i++){
+                StaticBlock block = new StaticBlock();
+                block.getTitleLabel().setText(attributes[i]);
+                block.getContentLabel().setText(values[i]);
+                nameBlock[i] = block;
+            }
+        }
+    }
 }
