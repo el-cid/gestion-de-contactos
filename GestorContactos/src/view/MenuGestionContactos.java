@@ -5,8 +5,10 @@
  */
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,80 +26,45 @@ public class MenuGestionContactos extends JPanel {
    private JButton buttonEliminar = new JButton("Eliminar contacto");
    private InteractiveBlock nameBlock = new InteractiveBlock();
    private InteractiveBlock lastNameBlock = new InteractiveBlock();
-   private JLabel label1 = new JLabel("   Nombre: ");
-   private JLabel label2 = new JLabel(" Apellido: ");
-   private JLabel label3 = new JLabel("  Contacto ");
-   private JLabel labelN = new JLabel(" Nombre: ");
-   private JLabel labelNombre = new JLabel("   nombre ");
-   private JLabel labelA = new JLabel("Apellido:");
-   private JLabel labelApellido = new JLabel("  apellido ");
-   private JLabel labelFecha = new JLabel("Fecha de nacimiento: ");
-   private JTextArea textAreaNombre = new JTextArea(1, 30);
-   private JTextArea textAreaApellido = new JTextArea(1, 30);
-   private PhotoView contactPhoto = new PhotoView();
+   private ContactView contact = new ContactView("static");
    // Constructor to setup the GUI components and event handlers
    public MenuGestionContactos() {
         
-        int i = 6;
-        int j = 3;
-        JPanel[][] panelHolder = new JPanel[i][j];    
-        setLayout(new GridLayout(i,j));
-
-        for(int m = 0; m < i; m++) {
-           for(int n = 0; n < j; n++) {
-              panelHolder[m][n] = new JPanel();
-              add(panelHolder[m][n]);
-           }
-        }
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
                         
         JPanel panelBusqueda = new JPanel();
         panelBusqueda.setLayout(new GridLayout(2,1));
-        JPanel panelNombre = new JPanel(new FlowLayout());
-        panelNombre.add(label1);
-        panelNombre.add(textAreaNombre);
-        panelBusqueda.add(panelNombre);
+        nameBlock.getTitleLabel().setText("Nombre:");
+        nameBlock.getTextArea().setText("nombre");
+        panelBusqueda.add(nameBlock);
+        lastNameBlock.getTitleLabel().setText("Apellido:");
+        lastNameBlock.getTextArea().setText("apellido");
+        panelBusqueda.add(lastNameBlock);
+        add(panelBusqueda);
         
-        JPanel panelApellido = new JPanel(new FlowLayout());
-        panelApellido.add(label2);
-        panelApellido.add(textAreaApellido);
-        panelBusqueda.add(panelApellido);
+        JPanel panelButtons = new JPanel();
+        panelButtons.setLayout(new FlowLayout());
+        panelButtons.add(buttonAnterior);
+        panelButtons.add(buttonSiguiente);
+        add(panelButtons);
         
-        panelHolder[0][1].add(panelBusqueda);
+        add(contact);
         
-        JPanel panelButtonAnterior = new JPanel(new FlowLayout());
-        panelButtonAnterior.add(buttonAnterior);
-        panelHolder[3][0].add(panelButtonAnterior);
+        JPanel bottomPanel = new JPanel(new GridLayout(1,3));
         
-        JPanel panelY = new JPanel(new FlowLayout());
-        panelY.add(label3);
-        panelHolder[1][1].add(panelY);
+        JPanel panelButtonAdd = new JPanel(new FlowLayout());
+        panelButtonAdd.add(buttonAdd);
+        bottomPanel.add(panelButtonAdd);
         
-        panelHolder[2][1].add(contactPhoto);
+        JPanel panelButtonMod = new JPanel(new FlowLayout());
+        panelButtonMod.add(buttonModificar);
+        bottomPanel.add(panelButtonMod);
         
-        JPanel panel3A1 = new JPanel(new FlowLayout());
-        panel3A1.add(labelN);
-        panel3A1.add(labelNombre);
-        panelHolder[3][1].add(panel3A1);
-        JPanel panel3B1 = new JPanel(new FlowLayout());
-        panel3B1.add(labelA);
-        panel3B1.add(labelApellido);
-        panelHolder[4][1].add(panel3B1);
+        JPanel panelButtonEliminar = new JPanel(new FlowLayout());
+        panelButtonEliminar.add(buttonEliminar);
+        bottomPanel.add(panelButtonEliminar);
         
-
-        JPanel panel3C2 = new JPanel(new FlowLayout());
-        panel3C2.add(buttonSiguiente);
-        panelHolder[3][2].add(panel3C2);
-                
-        JPanel panel4A = new JPanel(new FlowLayout());
-        panel4A.add(buttonModificar);
-        panelHolder[5][0].add(panel4A);
-        JPanel panel4B = new JPanel(new FlowLayout());
-        panel4B.add(buttonAdd);
-        panelHolder[5][1].add(panel4B);
-        JPanel panel4C = new JPanel(new FlowLayout());
-        panel4C.add(buttonEliminar);
-        panelHolder[5][2].add(panel4C);
-        
+        add(bottomPanel);
         
     }
 }
