@@ -8,7 +8,6 @@ package view;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
