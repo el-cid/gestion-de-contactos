@@ -8,6 +8,7 @@ import model.Contact;
 
 public class SyntaxChecker implements SyntaxCheckerConstants {
 
+
   static final public void S(ArrayList<Contact> contactList) throws ParseException {Contact c = new Contact();
     label_1:
     while (true) {
@@ -230,48 +231,22 @@ c.setFormattedName(builder2.toString());
         case WORD:{
           type = jj_consume_token(WORD);
 types.add(type.toString());
-          label_8:
-          while (true) {
-            switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-            case 19:{
-              ;
-              break;
-              }
-            default:
-              jj_la1[11] = jj_gen;
-              break label_8;
-            }
-            jj_consume_token(19);
-          }
           break;
           }
         case 14:{
           jj_consume_token(14);
           type = jj_consume_token(WORD);
 types.add(type.toString());
-          label_9:
-          while (true) {
-            switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-            case 19:{
-              ;
-              break;
-              }
-            default:
-              jj_la1[12] = jj_gen;
-              break label_9;
-            }
-            jj_consume_token(19);
-          }
           break;
           }
         default:
-          jj_la1[13] = jj_gen;
+          jj_la1[11] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
       }
       jj_consume_token(3);
-      label_10:
+      label_8:
       while (true) {
         tel = jj_consume_token(NUM);
 c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
@@ -281,8 +256,8 @@ c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
           break;
           }
         default:
-          jj_la1[14] = jj_gen;
-          break label_10;
+          jj_la1[12] = jj_gen;
+          break label_8;
         }
       }
       jj_consume_token(CRLF);
@@ -291,7 +266,7 @@ c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
 }
 
   static final public void F(Contact c) throws ParseException {Token em;Token type;ArrayList<String> types = new ArrayList<String>();
-    label_11:
+    label_9:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case 15:{
@@ -299,11 +274,11 @@ c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
         break;
         }
       default:
-        jj_la1[15] = jj_gen;
-        break label_11;
+        jj_la1[13] = jj_gen;
+        break label_9;
       }
       jj_consume_token(15);
-      label_12:
+      label_10:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case 14:
@@ -313,10 +288,10 @@ c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
           break;
           }
         default:
-          jj_la1[16] = jj_gen;
-          break label_12;
+          jj_la1[14] = jj_gen;
+          break label_10;
         }
-        label_13:
+        label_11:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
           case 14:{
@@ -324,12 +299,12 @@ c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
             break;
             }
           default:
-            jj_la1[17] = jj_gen;
-            break label_13;
+            jj_la1[15] = jj_gen;
+            break label_11;
           }
           jj_consume_token(14);
         }
-        label_14:
+        label_12:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
           case 19:{
@@ -337,8 +312,8 @@ c.addTelephone(tel.toString(),types);types = new ArrayList<String>();
             break;
             }
           default:
-            jj_la1[18] = jj_gen;
-            break label_14;
+            jj_la1[16] = jj_gen;
+            break label_12;
           }
           jj_consume_token(19);
         }
@@ -354,7 +329,7 @@ c.addEmail(em.toString(),types);types = new ArrayList<String>();
 }
 
   static final public void G(Contact c) throws ParseException {Token type;String ty = "";
-    label_15:
+    label_13:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case 10:{
@@ -362,8 +337,8 @@ c.addEmail(em.toString(),types);types = new ArrayList<String>();
         break;
         }
       default:
-        jj_la1[19] = jj_gen;
-        break label_15;
+        jj_la1[17] = jj_gen;
+        break label_13;
       }
       jj_consume_token(10);
       jj_consume_token(19);
@@ -381,7 +356,7 @@ ty = type.toString();
         break;
         }
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[18] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -391,14 +366,9 @@ ty = type.toString();
 }
 
   static final public void G1(Contact c, String type) throws ParseException {Token adr;StringBuilder builder = new StringBuilder();
-    label_16:
+    label_14:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case NUM:{
-        adr = jj_consume_token(NUM);
-builder.append(adr.toString() + " ");
-        break;
-        }
       case WORD:{
         adr = jj_consume_token(WORD);
 builder.append(adr.toString() + " ");
@@ -410,20 +380,19 @@ builder.append(";");
         break;
         }
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[19] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case 19:
-      case NUM:
       case WORD:{
         ;
         break;
         }
       default:
-        jj_la1[22] = jj_gen;
-        break label_16;
+        jj_la1[20] = jj_gen;
+        break label_14;
       }
     }
 String[] parts = builder.toString().split(";",-1);
@@ -435,7 +404,7 @@ String[] parts = builder.toString().split(";",-1);
     jj_consume_token(19);
     jj_consume_token(18);
     jj_consume_token(3);
-    label_17:
+    label_15:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case QUOTED:{
@@ -453,7 +422,7 @@ builder2.append(";");
         break;
         }
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[21] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -464,8 +433,8 @@ builder2.append(";");
         break;
         }
       default:
-        jj_la1[24] = jj_gen;
-        break label_17;
+        jj_la1[22] = jj_gen;
+        break label_15;
       }
     }
 String[] parts = builder2.toString().split(";",-1);
@@ -473,7 +442,7 @@ String[] parts = builder2.toString().split(";",-1);
 }
 
   static final public void H(Contact c) throws ParseException {Token pic;Token ext;StringBuilder builder = new StringBuilder();
-    label_18:
+    label_16:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case 16:{
@@ -481,8 +450,8 @@ String[] parts = builder2.toString().split(";",-1);
         break;
         }
       default:
-        jj_la1[25] = jj_gen;
-        break label_18;
+        jj_la1[23] = jj_gen;
+        break label_16;
       }
       jj_consume_token(16);
       jj_consume_token(19);
@@ -491,7 +460,7 @@ String[] parts = builder2.toString().split(";",-1);
       ext = jj_consume_token(WORD);
 c.getPhoto().setPicExtension(ext.toString());
       jj_consume_token(3);
-      label_19:
+      label_17:
       while (true) {
         pic = jj_consume_token(WORD);
 builder.append(pic.toString());
@@ -502,8 +471,8 @@ builder.append(pic.toString());
           break;
           }
         default:
-          jj_la1[26] = jj_gen;
-          break label_19;
+          jj_la1[24] = jj_gen;
+          break label_17;
         }
       }
 c.getPhoto().setEncodedContent(builder.toString());
@@ -513,7 +482,7 @@ c.getPhoto().setEncodedContent(builder.toString());
 }
 
   static final public void I(Contact c) throws ParseException {Token bday;
-    label_20:
+    label_18:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case 11:{
@@ -521,8 +490,8 @@ c.getPhoto().setEncodedContent(builder.toString());
         break;
         }
       default:
-        jj_la1[27] = jj_gen;
-        break label_20;
+        jj_la1[25] = jj_gen;
+        break label_18;
       }
       jj_consume_token(11);
       jj_consume_token(3);
@@ -550,13 +519,13 @@ c.setBirthday(bday.toString());
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[28];
+  static final private int[] jj_la1 = new int[26];
   static private int[] jj_la1_0;
   static {
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x4,0x880000,0x880000,0x480000,0x480000,0x80008,0x800000,0x400000,0x80008,0x1000,0x804000,0x80000,0x80000,0x804000,0x200000,0x8000,0x884000,0x4000,0x80000,0x400,0x80008,0xa80000,0xa80000,0x480000,0x480000,0x10000,0x800000,0x800,};
+	   jj_la1_0 = new int[] {0x4,0x880000,0x880000,0x480000,0x480000,0x80008,0x800000,0x400000,0x80008,0x1000,0x804000,0x804000,0x200000,0x8000,0x884000,0x4000,0x80000,0x400,0x80008,0x880000,0x880000,0x480000,0x480000,0x10000,0x800000,0x800,};
 	}
 
   /** Constructor with InputStream. */
@@ -577,7 +546,7 @@ c.setBirthday(bday.toString());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 28; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -591,7 +560,7 @@ c.setBirthday(bday.toString());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 28; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -608,7 +577,7 @@ c.setBirthday(bday.toString());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 28; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -626,7 +595,7 @@ c.setBirthday(bday.toString());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 28; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -642,7 +611,7 @@ c.setBirthday(bday.toString());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 28; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -651,7 +620,7 @@ c.setBirthday(bday.toString());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 28; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -707,7 +676,7 @@ c.setBirthday(bday.toString());
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 28; i++) {
+	 for (int i = 0; i < 26; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
