@@ -63,6 +63,10 @@ public class Block extends JPanel{
         this.content = content;
     }
     
+    public String getContent( ){
+        return this.content;
+    }
+    
     public void updateBlock(){
         this.contentLabel.setText( content );
         this.contentTextArea.setText( content );

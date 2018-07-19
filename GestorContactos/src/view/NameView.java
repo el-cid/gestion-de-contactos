@@ -53,5 +53,16 @@ public class NameView extends JPanel{
             block.makeStatic( b );
         }
     }
-
+    
+    public String getFirstName(){
+        return nameBlock[0].getContent();
+    }
+    
+    public String getSecondName(){
+        return nameBlock[2].getContent();
+    }
+    
+    public String getFamilyName(){
+        return nameBlock[1].getContent();
+    }
 }
