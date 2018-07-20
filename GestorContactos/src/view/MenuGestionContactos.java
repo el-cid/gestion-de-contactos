@@ -23,50 +23,52 @@ import javax.swing.JTextArea;
  * @author mizar
  */
 public class MenuGestionContactos extends JPanel {      
-   private JButton buttonAnterior = new JButton("Anterior");
-   private JButton buttonSiguiente = new JButton("Siguiente");
-   private JButton buttonModificar = new JButton("Modificar contacto");
-   private JButton buttonAdd = new JButton("Añadir contacto");
-   private JButton buttonEliminar = new JButton("Eliminar contacto");
-   private JButton returnButton = new JButton("Regresar");
-   private Block nameBlock = new Block();
-   private Block lastNameBlock = new Block();
-   private JPanel contact = new JPanel(new CardLayout());
-   private ArrayList<String> contactViewIds = new ArrayList<String>();
-   private ArrayList<ContactView> contacts = new ArrayList<ContactView>();
-   private int currentContact = 0;
-   // Constructor to setup the GUI components and event handlers
-   public MenuGestionContactos() {
-        
-        //_setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    private JPanel cards = new JPanel(new CardLayout());
+    private JPanel photoPanel = new JPanel();
+    private JPanel bodyPanel = new JPanel( new BorderLayout() );
+    private JPanel mainPanel = new JPanel(new BorderLayout());
+    private JButton buttonAnterior = new JButton("Anterior");
+    private JButton buttonSiguiente = new JButton("Siguiente");
+    private JButton buttonModificar = new JButton("Modificar contacto");
+    private JButton buttonAdd = new JButton("Añadir contacto");
+    private JButton buttonEliminar = new JButton("Eliminar contacto");
+    private JButton returnButton = new JButton("Regresar");
+    private Block nameBlock = new Block();
+    private Block lastNameBlock = new Block();
+    private ArrayList<ContactView> contacts = new ArrayList<ContactView>();
+    final static String MAINPANEL = "Pantalla raíz, con barra filtradora y botones.";
+    final static String EDITPANEL = "Pantalla secundaria, para modificar un contacto.";
+    private int currentContact = 0;
+    // Constructor to setup the GUI components and event handlers
+    public MenuGestionContactos() {
+       
         setLayout(new BorderLayout());
                         
         JPanel panelBusqueda = new JPanel();
         panelBusqueda.setLayout(new GridLayout(2,1));
         nameBlock.getTitleLabel().setText("Nombre:");
-        nameBlock.getTextArea().setText("nombre");
         panelBusqueda.add(nameBlock);
         lastNameBlock.getTitleLabel().setText("Apellido:");
-        lastNameBlock.getTextArea().setText("apellido");
         panelBusqueda.add(lastNameBlock);
-        //-add(panelBusqueda);
         add(panelBusqueda, BorderLayout.NORTH);
-        
-        JPanel bodyPanel = new JPanel( new BorderLayout() );//-
         
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout());
         panelButtons.add(buttonAnterior);
         panelButtons.add(buttonSiguiente);
-        //-add(panelButtons);
-        bodyPanel.add(panelButtons, BorderLayout.NORTH);//
-        
-        //contact.makeStatic( true );
-        //-add(contact);
-        bodyPanel.add(contact, BorderLayout.CENTER);
-        add(bodyPanel, BorderLayout.CENTER );//-
         buttonSiguiente.addActionListener(new RightL());
         buttonAnterior.addActionListener(new LeftL());
+        buttonSiguiente.setEnabled(false);//-
+        buttonAnterior.setEnabled(false);//-
+        bodyPanel.add(panelButtons, BorderLayout.NORTH);
+        
+        photoPanel.setLayout(new BoxLayout(photoPanel, BoxLayout.Y_AXIS));
+        photoPanel.add(new JPanel());
+        PhotoView noContacts = new PhotoView();
+        noContacts.configure("empty.jpg");
+        photoPanel.add(noContacts);
+        bodyPanel.add(photoPanel, BorderLayout.CENTER);
+        add(bodyPanel, BorderLayout.CENTER );
         
         JPanel bottomPanel = new JPanel(new GridLayout(1,4));
         
@@ -76,68 +78,75 @@ public class MenuGestionContactos extends JPanel {
         
         JPanel panelButtonMod = new JPanel(new FlowLayout());
         panelButtonMod.add(buttonModificar);
+        buttonModificar.setEnabled(false);
         bottomPanel.add(panelButtonMod);
         
         JPanel panelButtonEliminar = new JPanel(new FlowLayout());
         panelButtonEliminar.add(buttonEliminar);
+        buttonEliminar.setEnabled(false);
         bottomPanel.add(panelButtonEliminar);
         
         JPanel panelButtonRegresar = new JPanel(new FlowLayout());
         panelButtonRegresar.add(returnButton);
         bottomPanel.add(panelButtonRegresar);
         
-        //-add(bottomPanel);
-         add(bottomPanel, BorderLayout.SOUTH);
-        //-bodyPanel.add(bottomPanel, BorderLayout.SOUTH);
-        
+        add(bottomPanel, BorderLayout.SOUTH);
     }
    
-   public JButton getReturnButton(){
-       return this.returnButton;
-   }
-   
-   public JButton getSelectionButton(){
-       return this.buttonModificar;
-   }
-   
-   public void addContactView(ContactView contactView){
-       int size = contacts.size();
-       contactView.makeStatic(true);
-       this.contacts.add(contactView);
-       contactViewIds.add( size + "" );
-       contact.add( contactView, size + "" );
-   } 
-  
-   private class RightL implements ActionListener {
-            
-            public RightL(){
-                
-            }
-            
-            public void actionPerformed(ActionEvent e) {
-                currentContact++;
-                currentContact %= contacts.size();
-                CardLayout cl = (CardLayout)(contact.getLayout());
-                cl.show(contact, currentContact + "");
-            }
-    }
-    
-   private class LeftL implements ActionListener {
-            
-            public LeftL(){
-                
-            }
-            
-            public void actionPerformed(ActionEvent e) {
-                currentContact--;
-                //(x % N + N) %N
-                currentContact = (currentContact % contacts.size() + contacts.size()) % contacts.size();
-                CardLayout cl = (CardLayout)(contact.getLayout());
-                cl.show(contact, currentContact + "");
-            }
-    }
+    public void addContactView(ContactView contactView){
+        contactView.makeStatic(true);
+        this.contacts.add(contactView);
+        if ( contacts.size() == 1 ){
+            BorderLayout layout = (BorderLayout) bodyPanel.getLayout();
+            bodyPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+            bodyPanel.add(contacts.get( 0 ), BorderLayout.CENTER);
+            revalidate();
+            repaint();
+            buttonAnterior.setEnabled(true);
+            buttonSiguiente.setEnabled(true);
+            buttonModificar.setEnabled(true);
+            buttonEliminar.setEnabled(true);
+        }
+    } 
     
     public ContactView getCurrentContact(){
         return contacts.get( currentContact );
     }
+    
+    public JButton getReturnButton(){
+       return this.returnButton;
+   }
+   
+    public JButton getSelectionButton(){
+       return this.buttonModificar;
+   }
+     
+    private class RightL implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if ( contacts.size() > 0 ){
+                currentContact++;
+                currentContact %= contacts.size();
+                BorderLayout layout = (BorderLayout) bodyPanel.getLayout();
+                bodyPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+                bodyPanel.add(contacts.get( currentContact ), BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            }
+        }
+    }
+    
+    private class LeftL implements ActionListener {   
+        public void actionPerformed(ActionEvent e) {
+            if ( contacts.size() > 0 ){
+                currentContact--;
+                currentContact = (currentContact % contacts.size() + contacts.size()) % contacts.size();            
+                BorderLayout layout = (BorderLayout) bodyPanel.getLayout();
+                bodyPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+                bodyPanel.add(contacts.get( currentContact ), BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            }
+        }
+    }
+    
 }

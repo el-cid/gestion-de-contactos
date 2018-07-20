@@ -2,7 +2,6 @@ package control;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import javax.swing.SwingUtilities;
 import model.Address;
 import model.Contact;
 import model.Email;
@@ -23,8 +22,18 @@ public class Controller {
                 scheck.S( contactList );
                 
                 for ( Contact c : contactList ){
-                    //System.out.println( c );
                     ContactView contactoVisual = new ContactView();
+
+                    contactoVisual.setFormattedName(c.getFormattedName());
+
+                    String[] name = new String[5];
+                    name[0] = c.getName().getFamilyName();//
+                    name[1] = c.getName().getGivenName();//
+                    name[2] = c.getName().getAdditionalName();
+                    name[3] = c.getName().getHonorificPreffix();
+                    name[4] = c.getName().getHonorificSuffix();
+                    contactoVisual.setName( name );
+
                     for ( Address address : c.getAddresses() ){
                         String[] newAddress = new String[8];
                         newAddress[0] = address.getType();
@@ -37,27 +46,21 @@ public class Controller {
                         newAddress[7] = address.getCountry();
                         contactoVisual.addAddress( newAddress );
                     }
+
                     for ( Email email : c.getEmails() ){
                         String[] newEmail = new String[2];
                         newEmail[0] = email.getTypes();
                         newEmail[1] = email.getValue();
                         contactoVisual.addEmail( newEmail );
                     }
+
                     for ( Telephone tel : c.getTelephones() ){
                         String[] newTel = new String[2];
                         newTel[0] = tel.getTypes();
                         newTel[1] = tel.getValue();
                         contactoVisual.addTelephone( newTel );
                     }
-                        contactoVisual.setFormattedName(c.getFormattedName());
-                        String[] name = new String[5];
-                        name[0] = c.getName().getFamilyName();//
-                        name[1] = c.getName().getGivenName();//
-                        name[2] = c.getName().getAdditionalName();
-                        name[3] = c.getName().getHonorificPreffix();
-                        name[4] = c.getName().getHonorificSuffix();
                         
-                        contactoVisual.setName( name );
                     mainView.addContact(contactoVisual);
                 }
             }
@@ -68,16 +71,4 @@ public class Controller {
             System.out.println("Syntax check failed: " + e.getMessage());
         }
     } 
-    
-    /*
-    public static void main(String[] args) {
-        // Run the GUI construction in the Event-Dispatching thread for thread-safety
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new GUI(); // Let the constructor do the job
-            }
-        });
-    }
-    */
 }
