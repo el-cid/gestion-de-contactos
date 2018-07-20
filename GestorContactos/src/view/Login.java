@@ -37,4 +37,12 @@ public class Login extends JPanel{
     public JButton getLoginButton(){
         return this.button;
     }
+    
+    public Block getUserNameBlock(){
+        return this.userName;
+    }
+    
+    public Block getUserPasswordBlock(){
+        return this.userPassword;
+    }
 }

@@ -8,20 +8,12 @@ package view;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.JPanel;
 import control.Controller;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.lang.String;
 import java.util.Properties;
 /**
  *
@@ -56,7 +48,7 @@ public class Main extends JFrame {
         exportView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         menuContactos.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         //
-        for ( ContactView contactView : userContacts ){
+        for ( ContactView contactView : this.userContacts ){
             menuContactos.add(contactView);
         }
         //
@@ -89,6 +81,16 @@ public class Main extends JFrame {
     private class LoginL implements ActionListener {
             
             public void actionPerformed(ActionEvent e) {
+                String user = login.getUserNameBlock().getTextArea().getText();
+                String password = login.getUserPasswordBlock().getTextArea().getText();
+                //if user y password son validos
+                    //userContacts = control.loadUserContacts( userID )
+                //else notificar error
+                /*
+                    for ( ContactView contactView : userContacts ){
+                        addContact( contactView );
+                    }
+                */
                 CardLayout cl = (CardLayout)(cards.getLayout());
                 cl.show(cards, MAINPANEL);
             }
