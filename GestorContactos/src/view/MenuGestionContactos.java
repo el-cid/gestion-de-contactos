@@ -32,7 +32,6 @@ public class MenuGestionContactos extends JPanel {
     private JButton returnButton = new JButton("Regresar");
     private Block nameBlock = new Block();
     private Block lastNameBlock = new Block();
-    private PhotoView noContacts = new PhotoView();
     private ArrayList<ContactView> contacts = new ArrayList<ContactView>();
     final static String MAINPANEL = "Pantalla raíz, con barra filtradora y botones.";
     final static String EDITPANEL = "Pantalla secundaria, para modificar un contacto.";
@@ -64,6 +63,7 @@ public class MenuGestionContactos extends JPanel {
         
         photoPanel.setLayout(new BoxLayout(photoPanel, BoxLayout.Y_AXIS));
         photoPanel.add(new JPanel());
+        PhotoView noContacts = new PhotoView();
         noContacts.configure("empty.jpg");
         photoPanel.add(noContacts);
         bodyPanel.add(photoPanel, BorderLayout.CENTER);
@@ -197,8 +197,12 @@ public class MenuGestionContactos extends JPanel {
             contacts.remove( currentContact );
             size = contacts.size();
             if ( size == 0 ){    
-                bodyPanel.add( noContacts , BorderLayout.CENTER);
+                bodyPanel.add( photoPanel , BorderLayout.CENTER);
                 currentContact = 0;//
+                buttonAnterior.setEnabled(false);
+                buttonSiguiente.setEnabled(false);
+                buttonModificar.setEnabled(false);
+                buttonEliminar.setEnabled(false);
             }
             else{
                 currentContact--;
