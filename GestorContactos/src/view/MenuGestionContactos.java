@@ -35,6 +35,7 @@ public class MenuGestionContactos extends JPanel {
     private JButton returnButton = new JButton("Regresar");
     private Block nameBlock = new Block();
     private Block lastNameBlock = new Block();
+    private ArrayList<ContactView> allContacts = new ArrayList<ContactView>();
     private ArrayList<ContactView> contacts = new ArrayList<ContactView>();
     private ArrayList<ContactView> unfilteredContacts = new ArrayList<ContactView>();
     private PhotoView noContacts = new PhotoView();
@@ -106,7 +107,11 @@ public class MenuGestionContactos extends JPanel {
     }
    
     public void addContactView(ContactView contactView){
+        if ( contactView.getState().equalsIgnoreCase("") ){
+            contactView.setState("new");
+        }
         contactView.makeStatic(true);
+        this.allContacts.add(contactView);
         this.contacts.add(contactView);
         this.unfilteredContacts.add(contactView);
         BorderLayout layout = (BorderLayout) bodyPanel.getLayout();
@@ -168,6 +173,10 @@ public class MenuGestionContactos extends JPanel {
         public void actionPerformed(ActionEvent e) {                        
             contacts.get(currentContact).getReturnButton().addActionListener(new ReturnL());
             contacts.get(currentContact).makeStatic(false);
+            String state = contacts.get(currentContact).getState();
+            if ( state.equalsIgnoreCase("old") ){
+                contacts.get(currentContact).setState("modified");
+            }
             bottomPanel.setVisible(false);
             panelBusqueda.setVisible(false);
             panelButtons.setVisible(false);
@@ -176,7 +185,7 @@ public class MenuGestionContactos extends JPanel {
 
     private class ReturnL implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            
+            contacts.get(currentContact).update();
             contacts.get(currentContact).makeStatic(true);
             bottomPanel.setVisible(true);
             panelBusqueda.setVisible(true);
@@ -215,8 +224,17 @@ public class MenuGestionContactos extends JPanel {
             int size = contacts.size();
             BorderLayout layout = (BorderLayout) bodyPanel.getLayout();
             bodyPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
-            contacts.remove( currentContact );
+            ContactView deletedContact = contacts.get( currentContact );            
             unfilteredContacts.remove( currentContact );
+            String state = deletedContact.getState();
+            contacts.remove( currentContact );
+            if ( state.equalsIgnoreCase("old") || state.equalsIgnoreCase("modified") ){
+                deletedContact.setState( "deleted" );
+            }
+            else{
+                allContacts.remove( deletedContact );
+            }
+            
             size = contacts.size();
             if ( size == 0 ){    
                 bodyPanel.add( photoPanel , BorderLayout.CENTER);
@@ -337,4 +355,9 @@ public class MenuGestionContactos extends JPanel {
             repaint();
         }
     }
+    
+    public ArrayList<ContactView> getContactViews(){
+        return this.allContacts;
+    }
+    
 }

@@ -65,4 +65,16 @@ public class NameView extends JPanel{
     public String getFamilyName(){
         return nameBlock[1].getContent();
     }
+    
+    public void update(){
+        for ( Block block : nameBlock ){
+            String newContent = block.getTextArea().getText();
+            block.setContent( newContent );
+            block.updateBlock();
+        }
+    }
+    
+    public Block[] getBlocks(){
+        return this.nameBlock;
+    }
 }

@@ -4,29 +4,39 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import model.Address;
 import model.Contact;
 import model.Email;
 import model.Telephone;
 import parser.SyntaxChecker;
+import view.Block;
 import view.ContactView;
 import view.Main;
 
 public class Controller {
     private Main mainView;
-   
+    ArrayList<Contact> contactList = new ArrayList<Contact>();
+    
     public void parseFile(String filePath){
         try {
             File fileToParse = new File( filePath );
             InputStream is = new FileInputStream( fileToParse );
             if ( is != null ){
                 SyntaxChecker scheck = new SyntaxChecker( is );
-                ArrayList<Contact> contactList = new ArrayList<Contact>();
+                contactList = new ArrayList<Contact>();
                 scheck.S( contactList );
-                
+                //La siguiente linea debera modificarse porque el contacto podría tener 
+                //contactos registrados en la BD
+                int id = 0;
                 for ( Contact c : contactList ){
+                   
                     ContactView contactoVisual = new ContactView();
-
+                    //
+                    c.setContactID( id + "" );
+                    contactoVisual.setContactViewID( id + "" );
+                    contactoVisual.setState("old");//debería ser new
+                    // 
                     contactoVisual.setFormattedName(c.getFormattedName());
 
                     String[] name = new String[5];
@@ -74,6 +84,7 @@ public class Controller {
                     }
                     
                     mainView.addContact(contactoVisual);
+                    id++;
                 }
             }
             else{
@@ -86,6 +97,70 @@ public class Controller {
     
     public void setMainView(Main mainView){
         this.mainView = mainView;
+    }
+    
+    public Contact contactViewToContact(ContactView contactView ){
+        Contact modifiedContact = new Contact();
+        ArrayList<Block[]> addresses = contactView.getAddressView().getAddressesBlocks();
+        for ( Block[] address : addresses ){
+            modifiedContact.addAddress( address[0].getContent(),
+                                        address[1].getContent(), 
+                                        address[2].getContent(), 
+                                        address[3].getContent(), 
+                                        address[4].getContent(), 
+                                        address[5].getContent(), 
+                                        address[6].getContent(), 
+                                        address[7].getContent()
+                                      );
+        }
+        int day = contactView.getBirthdayView().getDateModel().getDay();
+        int month = contactView.getBirthdayView().getDateModel().getMonth();
+        int year = contactView.getBirthdayView().getDateModel().getYear();
+        modifiedContact.setBirthday( year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day) );
+        ArrayList<Block[]> emails = contactView.getEmailView().getEmailsBlocks();
+        for ( Block[] email : emails ){
+            String[] types = email[0].getContent().split("\\s+");
+            modifiedContact.addEmail( email[1].getContent() , new ArrayList<>(Arrays.asList( types )));
+        }
+        modifiedContact.setFormattedName( contactView.getFormattedNameView().getFormattedName() );
+        Block[] name = contactView.getNameView().getBlocks();
+        modifiedContact.getName().setGivenName( name[0].getContent() );
+        modifiedContact.getName().setFamilyName( name[1].getContent() );
+        modifiedContact.getName().setAdditionalName( name[2].getContent() );
+        modifiedContact.getName().setHonorificPreffix( name[3].getContent() );
+        modifiedContact.getName().setHonorificSuffix( name[4].getContent() );
+        ArrayList<Block[]> telephones = contactView.getTelephoneView().getTelephonesBlocks();
+        for ( Block[] telephone : telephones ){
+            String[] types = telephone[0].getContent().split("\\s+");
+            modifiedContact.addTelephone( telephone[1].getContent() , new ArrayList<>(Arrays.asList( types )));
+        }
+        //System.out.println( modifiedContact.toString() );
+        return modifiedContact;
+    }
+    
+    public void saveChanges( ArrayList<ContactView> contactViews ){
+        for ( ContactView contactView : contactViews ){
+            String contactViewID = contactView.getContactViewID();
+            String state = contactView.getState();
+            System.out.println( "ID: " + contactViewID + " State: " + state );
+            if ( state.equalsIgnoreCase("new") ){
+                Contact newContact = contactViewToContact( contactView );//crear nueva tupla en la BD (escribir)
+            }
+            else{
+                for ( Contact contact : contactList ){
+                    String contactID = contact.getContactID();
+                    if ( contactViewID.equalsIgnoreCase( contactID ) ){
+                        if ( state.equalsIgnoreCase("modified") ){
+                            Contact newContact = contactViewToContact( contactView );
+                            //UPDATE contactos WHERE ID = contactID, sobreescribir con newContact
+                        }
+                        else if ( state.equalsIgnoreCase("Deleted") ){
+                            //eliminar contacto de la BD WHERE ID = contactID
+                        }
+                    }
+                }
+            }
+        }
     }
     
     public static void main(String[] args) {

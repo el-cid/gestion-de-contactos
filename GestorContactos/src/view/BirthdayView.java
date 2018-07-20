@@ -6,6 +6,8 @@
 package view;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -20,14 +22,34 @@ public class BirthdayView extends JPanel{
     private JDatePickerImpl datePicker;
     private JLabel labelFecha = new JLabel("Fecha de nacimiento:");
     private UtilDateModel model = new UtilDateModel();
+    private JDatePanelImpl datePanel;
     public BirthdayView(){
         this.add(labelFecha);
-        JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        datePanel = new JDatePanelImpl(model);
         datePicker = new JDatePickerImpl(datePanel);
+        //datePicker.addActionListener( new DateL() );
         this.add(datePicker);
         this.setLayout( new FlowLayout() );
     }
+    public void makeStatic( boolean b ){
+            datePicker.getComponent(1).setEnabled( !b );
+    }
+    /*
+    private class DateL implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(datePicker.getModel().getDay());
+            System.out.println(datePicker.getModel().getMonth());
+            System.out.println(datePicker.getModel().getYear());
+            revalidate();
+            repaint();
+        }
+    }
+    */
     public UtilDateModel getDateModel(){
         return this.model;
+    }
+    
+    public void update(){
+        //System.out.println(model.getDay() + model.getMonth() + model.getYear());
     }
 }

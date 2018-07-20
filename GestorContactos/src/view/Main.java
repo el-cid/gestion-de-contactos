@@ -19,6 +19,10 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.JPanel;
 import control.Controller;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.lang.String;
+import java.util.Properties;
 /**
  *
  * @author mizar
@@ -31,6 +35,8 @@ public class Main extends JFrame {
     private ImportView importView = new ImportView();
     private ExportView exportView = new ExportView();
     private MenuGestionContactos menuContactos = new MenuGestionContactos();
+    private ArrayList<ContactView> userContacts = new ArrayList<ContactView>();
+    private Properties map = new Properties();
     final static String LOGINPANEL = "Pantalla para ingresar.";
     final static String MAINPANEL = "Pantalla con el menú principal.";
     final static String IMPORTPANEL = "Pantalla para importar un archivo vcf.";
@@ -49,7 +55,11 @@ public class Main extends JFrame {
         importView.getImportButton().addActionListener(new ImportL());
         exportView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         menuContactos.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
-                
+        //
+        for ( ContactView contactView : userContacts ){
+            menuContactos.add(contactView);
+        }
+        //
         cards.add( login, LOGINPANEL );
         cards.add( mainMenu, MAINPANEL );
         cards.add( importView, IMPORTPANEL );
@@ -91,7 +101,7 @@ public class Main extends JFrame {
             }
             
             public void actionPerformed(ActionEvent e) {
-                notificarSolicitud();
+                logout();
                 CardLayout cl = (CardLayout)(cards.getLayout());
                 cl.show(cards, panelID);
             }
@@ -115,8 +125,16 @@ public class Main extends JFrame {
     public void addContact(ContactView contact){
         menuContactos.addContactView( contact );
     }
+    
+    public void setUserContactViews( ArrayList<ContactView> contacts){
+        this.userContacts = contacts;
+    }
+    
+    public ArrayList<ContactView> getUserContactView( ){
+        return this.userContacts;
+    }
 
-    public void notificarSolicitud(){
+    public void logout(){
         Object[] options = {"Si",
                         "No"};
         int n = JOptionPane.showOptionDialog(new JFrame(),
@@ -128,10 +146,11 @@ public class Main extends JFrame {
         options,  //the titles of buttons
         options[0]); //default button title
         if ( n == YES_OPTION){
-            System.out.println("YEEESSSSS");
+            userContacts = menuContactos.getContactViews();
+            control.saveChanges( userContacts );
         }
         else {
-            System.out.println("NOOOOOOO");
+            
         }
     }
 

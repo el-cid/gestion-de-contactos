@@ -123,4 +123,17 @@ public class TelephoneView extends JPanel{
         }
     }
     
+    public void update(){
+        for ( Block[] blocks : telephoneBlock ){
+            for ( Block block : blocks ){
+                String newContent = block.getTextArea().getText();
+                block.setContent( newContent );
+                block.updateBlock();
+            }
+        }
+    }
+    
+    public ArrayList<Block[]> getTelephonesBlocks(){
+        return this.telephoneBlock;
+    }
 }

@@ -20,8 +20,8 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class ExportView extends JPanel{
-    private StaticBlock fileName = new StaticBlock();
-    private StaticBlock fileDirectory = new StaticBlock();
+    private Block fileName = new Block();
+    private Block fileDirectory = new Block();
     private JButton returnButton = new JButton("Regresar");
     private JButton buttonExportar = new JButton("Exportar");
     private JButton buttonSeleccionar = new JButton("Seleccionar ruta y nombre del archivo");
@@ -36,8 +36,10 @@ public class ExportView extends JPanel{
         JPanel filePanel = new JPanel(new GridLayout(1,2));
         fileDirectory.getTitleLabel().setText("Ruta del archivo:");
         fileDirectory.getContentLabel().setText("");
+        fileDirectory.makeStatic(true);
         fileName.getTitleLabel().setText("Nombre del archivo:");
         fileName.getContentLabel().setText("");
+        fileName.makeStatic(true);
         filePanel.add( fileDirectory );
         filePanel.add( fileName );
         

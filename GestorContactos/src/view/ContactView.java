@@ -17,7 +17,8 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class ContactView extends JPanel{
-    
+    private String state = "";
+    private String contactViewID = "";
     private AddressView addressPanel = new AddressView();
     private BirthdayView birthdayPanel = new BirthdayView();
     private EmailView emailPanel = new EmailView();
@@ -56,13 +57,30 @@ public class ContactView extends JPanel{
     
     public void makeStatic(boolean b){
         addressPanel.makeStatic(b);
-        //birthdayPanel.makeStatic(b);
+        birthdayPanel.makeStatic(b);
+        
         emailPanel.makeStatic(b);
         formattedNamePanel.makeStatic(b);
         namePanel.makeStatic(b);
         //photoPanel.makeStatic(b);
         telephonePanel.makeStatic(b);
         bottomPanel.setVisible(!b);
+    }
+    
+    public String getContactViewID(){
+        return this.contactViewID;
+    }
+    
+    public void setContactViewID( String id ){
+        this.contactViewID = id;
+    }
+    
+    public String getState(){
+        return this.state;
+    }
+    
+    public void setState( String st ){
+        this.state = st;
     }
     
     public JButton getReturnButton(){
@@ -104,5 +122,13 @@ public class ContactView extends JPanel{
     public void setNameView( NameView nv ){ this.namePanel = nv; }
     public void setPhotoView( PhotoView pv ){ this.photoPanel = pv; }
     public void setTelephoneView( TelephoneView tv ){ this.telephonePanel = tv; }
-
+    
+    public void update(){
+        addressPanel.update();
+        birthdayPanel.update();
+        emailPanel.update();
+        formattedNamePanel.update();
+        namePanel.update();
+        telephonePanel.update();
+    }
 }

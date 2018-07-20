@@ -123,4 +123,17 @@ public class EmailView extends JPanel{
         }
     }
     
+    public void update(){
+        for ( Block[] blocks : emailBlock ){
+            for ( Block block : blocks ){
+                String newContent = block.getTextArea().getText();
+                block.setContent( newContent );
+                block.updateBlock();
+            }
+        }
+    }
+    
+    public ArrayList<Block[]> getEmailsBlocks(){
+        return this.emailBlock;
+    }
 }

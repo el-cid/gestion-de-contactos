@@ -29,4 +29,12 @@ public class FormattedNameView extends JPanel{
         formattedNameBlock.setContent(name);
         formattedNameBlock.updateBlock();
     }
+    public void update(){
+        String newContent = formattedNameBlock.getTextArea().getText();
+        formattedNameBlock.setContent( newContent );
+        formattedNameBlock.updateBlock();
+    }
+    public String getFormattedName(){
+        return formattedNameBlock.getContent();
+    }
 }

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Contact{
+    private String contactID = "";
     private Name name = new Name();
     private String formattedName = "";
     private String birthday = "";
@@ -18,6 +19,7 @@ public class Contact{
     public Photo getPhoto() { return photo; }
     public String getFormattedName() { return formattedName; }
     public String getBirthday() { return birthday; }
+    public String getContactID() { return contactID; }
     
     public void addTelephone(String value, ArrayList<String> types){
     	 Telephone tel = new Telephone();
@@ -49,7 +51,8 @@ public class Contact{
     }
     public void setFormattedName( String fname ) { formattedName = fname; }
     public void setBirthday( String bday ) { birthday = bday; }
-
+    public void setContactID( String id ) { this.contactID = id; }
+    
     public String toString(){
         String contactInfo  = "";
 	contactInfo += "FN:\n" + formattedName + "\n";

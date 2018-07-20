@@ -19,15 +19,15 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class AddressView extends JPanel{
-   private JPanel addressTopPanel = new JPanel(new FlowLayout());
-   private JPanel addressMiddlePanel = new JPanel();
-   private JPanel addressBottomPanel = new JPanel(new FlowLayout());
-   private JLabel header = new JLabel("Dirección:");
-   private JButton addAddressButton = new JButton("+");
-   private ArrayList<Block[]> addressBlock = new ArrayList<Block[]>();
-   private ArrayList<JButton> deleteAddressButtons = new ArrayList<JButton>();
-   private ArrayList<JPanel> addressMiddleList = new ArrayList<JPanel>();
-   // Constructor to setup the GUI components and event handlers
+    private JPanel addressTopPanel = new JPanel(new FlowLayout());
+    private JPanel addressMiddlePanel = new JPanel();
+    private JPanel addressBottomPanel = new JPanel(new FlowLayout());
+    private JLabel header = new JLabel("Dirección:");
+    private JButton addAddressButton = new JButton("+");
+    private ArrayList<Block[]> addressBlock = new ArrayList<Block[]>();
+    private ArrayList<JButton> deleteAddressButtons = new ArrayList<JButton>();
+    private ArrayList<JPanel> addressMiddleList = new ArrayList<JPanel>();
+    // Constructor to setup the GUI components and event handlers
     public AddressView() {
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         addressTopPanel.add( header );
@@ -135,4 +135,17 @@ public class AddressView extends JPanel{
         }
     }
     
+    public void update(){
+        for ( Block[] blocks : addressBlock ){
+            for ( Block block : blocks ){
+                String newContent = block.getTextArea().getText();
+                block.setContent( newContent );
+                block.updateBlock();
+            }
+        }
+    }
+    
+    public ArrayList<Block[]> getAddressesBlocks(){
+        return this.addressBlock;
+    }
 }
