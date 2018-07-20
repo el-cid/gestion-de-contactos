@@ -49,9 +49,8 @@ public class EmailView extends JPanel{
         emailBottomPanel.setVisible( !b );
     }
 
-    private void addToEmailBlock(){
-        String[] attributes = {"Type:", "Email:"};
-        String[] values = {"type", "email"};
+    private void addToEmailBlock( String[] values ){
+        String[] attributes = {"Tipo:", "Dirección:"};
         int top = emailBlock.size();
         int numberOfBlocks = 2;
         emailBlock.add(new Block[ numberOfBlocks ]);
@@ -83,8 +82,8 @@ public class EmailView extends JPanel{
         
     }
         
-    public void addEmail(){
-        addToEmailBlock();
+    public void addEmail( String[] values ){
+        addToEmailBlock( values );
         addToEmailMiddleList();
         emailMiddlePanel.add(emailMiddleList.get( emailMiddleList.size() - 1 ));
         revalidate();
@@ -107,7 +106,8 @@ public class EmailView extends JPanel{
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            addEmail();
+            String[] values = {"",""};
+            addEmail( values );
         }
     }
     

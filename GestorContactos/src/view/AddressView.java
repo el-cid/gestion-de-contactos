@@ -53,24 +53,16 @@ public class AddressView extends JPanel{
         addressBottomPanel.setVisible( !b );
     }
     
-    private void addToAddressBlock(){
-       String[] attributes = {"Type:",
-                                "Post-Office:",
-                                "Extended:",
-                                "Street:",
-                                "Locality:",
-                                "Region:",
-                                "Postal Code:",
-                                "Country:"};
-       String[] values = {"type",
-                                "postOffice",
-                                "extendedAd",
-                                "street",
-                                "locality",
-                                "region",
-                                "postalCode",
-                                "country"};
-       
+    private void addToAddressBlock(String[] values ){
+       String[] attributes = {"Tipo:",
+                                "Correo:",
+                                "D. Extendida:",
+                                "Calle:",
+                                "Localidad:",
+                                "Región:",
+                                "C.P:",
+                                "País:"};
+   
             int top = addressBlock.size();
             int numberOfBlocks = 8;
             addressBlock.add(new Block[ numberOfBlocks ]);
@@ -102,8 +94,8 @@ public class AddressView extends JPanel{
         
     }
         
-    public void addAddress(){
-        addToAddressBlock();
+    public void addAddress(String[] values){
+        addToAddressBlock( values );
         addToAddressMiddleList();
         addressMiddlePanel.add(addressMiddleList.get( addressMiddleList.size() - 1 ));
         revalidate();
@@ -126,7 +118,8 @@ public class AddressView extends JPanel{
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            addAddress();
+            String[] values = {"","","","","","","",""};
+            addAddress(values);
         }
     }
     

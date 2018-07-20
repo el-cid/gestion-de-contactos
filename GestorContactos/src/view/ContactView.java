@@ -30,15 +30,7 @@ public class ContactView extends JPanel{
     private JButton returnButton = new JButton("Regresar");
     private JPanel bottomPanel = new JPanel(new GridLayout(1,2));
     public ContactView(){
-        
-        addressPanel  = new AddressView();
-        birthdayPanel = new BirthdayView();
-        emailPanel = new EmailView();
-        formattedNamePanel = new FormattedNameView();
-        namePanel = new NameView();
-        photoPanel = new PhotoView();
-        telephonePanel = new TelephoneView();
-      
+              
         JPanel headerPanel = new JPanel(new FlowLayout());
         headerPanel.add(headerLabel);
         this.add(headerPanel);
@@ -49,9 +41,7 @@ public class ContactView extends JPanel{
         this.add(telephonePanel);
         this.add(addressPanel);
         this.add(emailPanel);
-        
-        
-        
+                
         JPanel firstButtonPanel = new JPanel(new FlowLayout());
         firstButtonPanel.add(bottomButton);
         JPanel secondButtonPanel = new JPanel(new FlowLayout());
@@ -78,5 +68,25 @@ public class ContactView extends JPanel{
     
     public JButton getReturnButton(){
         return this.returnButton;
+    }
+
+    public void addAddress( String[] values ){
+        addressPanel.addAddress( values );
+    }
+    
+    public void addEmail( String[] values ){
+        emailPanel.addEmail( values );
+    }
+    
+    public void setFormattedName( String value ){
+        formattedNamePanel.setFormattedName(value);
+    }
+    
+    public void setName( String[] values ){
+        namePanel.setName(values);
+    }
+    
+    public void addTelephone( String[] values ){
+        telephonePanel.addTelephone(values);
     }
 }

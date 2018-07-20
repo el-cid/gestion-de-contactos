@@ -27,13 +27,10 @@ public class NameView extends JPanel{
     }
     
     private void initNameBlock(){
-        String[] attributes = {"Given Name:", "Family Name:",
-                              "Additional Name:", "Honorific Preffix:",
-                              "Honorific Suffix"};
-        String[] values = {"given name", "family name",
-                          "additional name" , "honorific preffix",
-                          "honorific suffix"};
-       
+        String[] attributes = {"Nombre:", "Apellido:",
+                              "Segundo Nombre:", "Prefijo:",
+                              "Título:"};
+        String[] values = {"", "", "" , "", ""};       
         
         for (int i = 0; i < nameBlock.length; i++){
             nameBlock[i] = new Block();
@@ -42,6 +39,13 @@ public class NameView extends JPanel{
             nameBlock[i].setContent(values[i]);
             nameBlock[i].updateBlock();
         }        
+    }
+    
+    public void setName(String[] values){
+        for (int i = 0; i < nameBlock.length; i++){
+            nameBlock[i].setContent(values[i]);
+            nameBlock[i].updateBlock();
+        }  
     }
     
     public void makeStatic(boolean b){  

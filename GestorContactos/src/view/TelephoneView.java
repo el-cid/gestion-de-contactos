@@ -48,9 +48,9 @@ public class TelephoneView extends JPanel{
         telephoneBottomPanel.setVisible( !b );    
     }
     
-    private void addToTelephoneBlock(){
-        String[] attributes = {"Type:", "Número:"};
-        String[] values = {"type", "número"};
+    private void addToTelephoneBlock(String[] values){
+        String[] attributes = {"Tipo:", "Número:"};
+    
         int top = telephoneBlock.size();
         int numberOfBlocks = 2;
         telephoneBlock.add(new Block[ numberOfBlocks ]);
@@ -82,8 +82,8 @@ public class TelephoneView extends JPanel{
    
     }
         
-    public void addTelephone(){
-        addToTelephoneBlock();
+    public void addTelephone(String[] values){
+        addToTelephoneBlock( values );
         addToTelephoneMiddleList();
         telephoneMiddlePanel.add(telephoneMiddleList.get( telephoneMiddleList.size() - 1 ));
         revalidate();
@@ -106,7 +106,8 @@ public class TelephoneView extends JPanel{
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            addTelephone();
+            String[] values = {"",""};
+            addTelephone( values );
         }
     }
     

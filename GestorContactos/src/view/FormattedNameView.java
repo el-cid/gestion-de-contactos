@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 public class FormattedNameView extends JPanel{
     private Block formattedNameBlock = new Block();
     public FormattedNameView(){
-        formattedNameBlock.getTitleLabel().setText("Formatted Name:");
-        formattedNameBlock.setContent("formatted name");
+        formattedNameBlock.getTitleLabel().setText("Nombre con formato:");
+        formattedNameBlock.setContent("");
         formattedNameBlock.updateBlock();
         
         this.add(formattedNameBlock);
@@ -24,5 +24,9 @@ public class FormattedNameView extends JPanel{
     }
     public void makeStatic(boolean b){
         formattedNameBlock.makeStatic( b );
+    }
+    public void setFormattedName( String name ){
+        formattedNameBlock.setContent(name);
+        formattedNameBlock.updateBlock();
     }
 }
