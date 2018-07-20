@@ -26,6 +26,7 @@ public class ImportView extends JPanel{
     private Block userInput = new Block();
     private JButton button = new JButton("Importar");
     private JButton returnButton = new JButton("Regresar");
+    private boolean fileSupplied = false;
     public ImportView(){
         JPanel headerPanel = new JPanel( new FlowLayout() );
         JLabel headerLabel = new JLabel( "Importar archivo" );
@@ -39,6 +40,7 @@ public class ImportView extends JPanel{
         userInput.getTextArea().setDropTarget(new DropTarget() {
             public synchronized void drop(DropTargetDropEvent evt) {
                 try {
+                    fileSupplied = true;
                     evt.acceptDrop(DnDConstants.ACTION_COPY);
                     List<File> droppedFiles = (List<File>) evt
                             .getTransferable().getTransferData(
@@ -68,5 +70,17 @@ public class ImportView extends JPanel{
     
     public JButton getReturnButton(){
         return this.returnButton;
+    }
+    
+    public JButton getImportButton(){
+        return this.button;
+    }
+    
+    public String getFilePath(){
+        return this.userInput.getTextArea().getText();
+    }
+    
+    public boolean fileWasSupplied(){
+        return this.fileSupplied;
     }
 }

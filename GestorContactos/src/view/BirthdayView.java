@@ -19,12 +19,15 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 public class BirthdayView extends JPanel{
     private JDatePickerImpl datePicker;
     private JLabel labelFecha = new JLabel("Fecha de nacimiento:");
+    private UtilDateModel model = new UtilDateModel();
     public BirthdayView(){
         this.add(labelFecha);
-        UtilDateModel model = new UtilDateModel();
         JDatePanelImpl datePanel = new JDatePanelImpl(model);
         datePicker = new JDatePickerImpl(datePanel);
         this.add(datePicker);
         this.setLayout( new FlowLayout() );
+    }
+    public UtilDateModel getDateModel(){
+        return this.model;
     }
 }

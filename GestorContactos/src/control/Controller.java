@@ -1,5 +1,7 @@
 package control;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import model.Address;
@@ -11,11 +13,12 @@ import view.ContactView;
 import view.Main;
 
 public class Controller {
-    
-    public static void main(String[] args) {
+    private Main mainView;
+   
+    public void parseFile(String filePath){
         try {
-            InputStream is = Controller.class.getClassLoader().getResourceAsStream("resources/contactos.vcf");
-            Main mainView = new Main();
+            File fileToParse = new File( filePath );
+            InputStream is = new FileInputStream( fileToParse );
             if ( is != null ){
                 SyntaxChecker scheck = new SyntaxChecker( is );
                 ArrayList<Contact> contactList = new ArrayList<Contact>();
@@ -60,7 +63,16 @@ public class Controller {
                         newTel[1] = tel.getValue();
                         contactoVisual.addTelephone( newTel );
                     }
-                        
+                    String birthday = c.getBirthday();
+                    if ( !birthday.equalsIgnoreCase("") ){
+                        String[] parts = birthday.split("-",-1);
+                        int year = Integer.parseInt( parts[0] );
+                        int month = Integer.parseInt( parts[1] );
+                        int day = Integer.parseInt( parts[2] );
+                        contactoVisual.getBirthdayView().getDateModel().setDate(year, month, day);
+                        contactoVisual.getBirthdayView().getDateModel().setSelected(true);
+                    }
+                    
                     mainView.addContact(contactoVisual);
                 }
             }
@@ -70,5 +82,16 @@ public class Controller {
         } catch (Throwable e) {
             System.out.println("Syntax check failed: " + e.getMessage());
         }
+    }
+    
+    public void setMainView(Main mainView){
+        this.mainView = mainView;
+    }
+    
+    public static void main(String[] args) {
+           Controller control = new Controller();
+           Main main = new Main();
+           main.setController(control);
+           control.setMainView(main);
     } 
 }

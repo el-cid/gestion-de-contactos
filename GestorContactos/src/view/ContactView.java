@@ -26,7 +26,6 @@ public class ContactView extends JPanel{
     private PhotoView photoPanel = new PhotoView();
     private TelephoneView telephonePanel = new TelephoneView();
     private JLabel headerLabel = new JLabel("Contacto");
-    private JButton bottomButton = new JButton("Guardar cambios");
     private JButton returnButton = new JButton("Regresar");
     private JPanel bottomPanel = new JPanel(new GridLayout(1,2));
     public ContactView(){
@@ -45,11 +44,10 @@ public class ContactView extends JPanel{
         this.add(addressPanel);
         this.add(emailPanel);
                 
-        JPanel firstButtonPanel = new JPanel(new FlowLayout());
-        firstButtonPanel.add(bottomButton);
+        
         JPanel secondButtonPanel = new JPanel(new FlowLayout());
         secondButtonPanel.add(returnButton);
-        bottomPanel.add(firstButtonPanel);
+        
         bottomPanel.add(secondButtonPanel);
         bottomPanel.setVisible(false);
         this.add(bottomPanel);

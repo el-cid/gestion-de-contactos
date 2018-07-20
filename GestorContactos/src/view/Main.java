@@ -8,14 +8,23 @@ package view;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.JPanel;
-
+import control.Controller;
 /**
  *
  * @author mizar
  */
 public class Main extends JFrame {   
+    private Controller control;
     private JPanel cards = new JPanel(new CardLayout());
     private Login login = new Login();
     private MainMenu mainMenu = new MainMenu();
@@ -35,8 +44,9 @@ public class Main extends JFrame {
         mainMenu.getImportButton().addActionListener(new ReturnL(IMPORTPANEL));
         mainMenu.getContactsButton().addActionListener(new ReturnL(CONTACTSPANEL));
         mainMenu.getExportButton().addActionListener(new ReturnL(EXPORTPANEL));
-        mainMenu.getLogoutButton().addActionListener(new ReturnL(LOGINPANEL));
+        mainMenu.getLogoutButton().addActionListener(new LogoutL(LOGINPANEL));
         importView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
+        importView.getImportButton().addActionListener(new ImportL());
         exportView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         menuContactos.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
                 
@@ -51,7 +61,7 @@ public class Main extends JFrame {
         setTitle("Mis contactos"); // "super" JFrame sets title
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
         setVisible(true);          // "super" JFrame shows
-    
+ 
     }
     
     private class ReturnL implements ActionListener {
@@ -74,8 +84,58 @@ public class Main extends JFrame {
             }
     }
     
+    private class LogoutL implements ActionListener {
+            private String panelID = "";
+            public LogoutL(String panelStr){
+                this.panelID = panelStr;
+            }
+            
+            public void actionPerformed(ActionEvent e) {
+                notificarSolicitud();
+                CardLayout cl = (CardLayout)(cards.getLayout());
+                cl.show(cards, panelID);
+            }
+    }
+    
+    private class ImportL implements ActionListener {
+            
+        public void actionPerformed(ActionEvent e) {
+            String filePath = importView.getFilePath();
+            if ( !importView.fileWasSupplied() ){
+                String title = "Error";
+                String message = "Necesitas proporcionar un archivo.";
+                JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                control.parseFile(filePath);
+            }
+        }
+    }
+    
     public void addContact(ContactView contact){
         menuContactos.addContactView( contact );
     }
 
+    public void notificarSolicitud(){
+        Object[] options = {"Si",
+                        "No"};
+        int n = JOptionPane.showOptionDialog(new JFrame(),
+        "¿Deseas guardar los cambios realizados?",
+        "Notificación",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null,     //do not use a custom Icon
+        options,  //the titles of buttons
+        options[0]); //default button title
+        if ( n == YES_OPTION){
+            System.out.println("YEEESSSSS");
+        }
+        else {
+            System.out.println("NOOOOOOO");
+        }
+    }
+
+    public void setController(Controller control){
+        this.control = control;
+    }
 }
