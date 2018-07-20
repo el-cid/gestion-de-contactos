@@ -17,12 +17,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
 /**
  *
  * @author mizar
  */
 public class MenuGestionContactos extends JPanel {      
+    private JPanel panelButtons = new JPanel();
     private JPanel bottomPanel = new JPanel(new GridLayout(1,4));
     private JPanel panelBusqueda = new JPanel();
     private JPanel photoPanel = new JPanel();
@@ -54,7 +54,6 @@ public class MenuGestionContactos extends JPanel {
         panelBusqueda.add(lastNameBlock);
         add(panelBusqueda, BorderLayout.NORTH);
         
-        JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout());
         panelButtons.add(buttonAnterior);
         panelButtons.add(buttonSiguiente);
@@ -152,11 +151,15 @@ public class MenuGestionContactos extends JPanel {
     
     private class ModifyL implements ActionListener {
         public void actionPerformed(ActionEvent e) {            
-            //contactBackup = new ContactView(contacts.get(currentContact));
+            /*//-contactBackup = new ContactView(contacts.get(currentContact));//-
+            Cloner cloner=new Cloner();
+            contactBackup = cloner.deepClone(contacts.get(currentContact));
+            */
             contacts.get(currentContact).getReturnButton().addActionListener(new ReturnL());
             contacts.get(currentContact).makeStatic(false);
             bottomPanel.setVisible(false);
             panelBusqueda.setVisible(false);
+            panelButtons.setVisible(false);
         }
     }
 
@@ -166,6 +169,18 @@ public class MenuGestionContactos extends JPanel {
             contacts.get(currentContact).makeStatic(true);
             bottomPanel.setVisible(true);
             panelBusqueda.setVisible(true);
+            panelButtons.setVisible(true);
+            
+            /*
+            BorderLayout layout = (BorderLayout) bodyPanel.getLayout();
+            bodyPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+            contactBackup.makeStatic(true);
+            bodyPanel.add(contactBackup, BorderLayout.CENTER);
+            bottomPanel.setVisible(true);
+            panelBusqueda.setVisible(true);
+            panelButtons.setVisible(true);
+            */
+           
             revalidate();
             repaint();
         }

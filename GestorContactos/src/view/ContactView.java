@@ -107,13 +107,4 @@ public class ContactView extends JPanel{
     public void setPhotoView( PhotoView pv ){ this.photoPanel = pv; }
     public void setTelephoneView( TelephoneView tv ){ this.telephonePanel = tv; }
 
-    public ContactView(ContactView original){
-        this.addressPanel = original.addressPanel;
-        this.birthdayPanel = original.birthdayPanel;
-        this.emailPanel = original.emailPanel;
-        this.formattedNamePanel = original.formattedNamePanel;
-        this.namePanel = original.namePanel;
-        this.photoPanel = original.photoPanel;
-        this.telephonePanel = original.telephonePanel;
-    }
 }
