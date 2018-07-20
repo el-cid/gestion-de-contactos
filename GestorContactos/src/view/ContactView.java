@@ -30,7 +30,10 @@ public class ContactView extends JPanel{
     private JButton returnButton = new JButton("Regresar");
     private JPanel bottomPanel = new JPanel(new GridLayout(1,2));
     public ContactView(){
-              
+        configureLayout();
+    }
+    
+    public void configureLayout(){
         JPanel headerPanel = new JPanel(new FlowLayout());
         headerPanel.add(headerLabel);
         this.add(headerPanel);
@@ -62,8 +65,6 @@ public class ContactView extends JPanel{
         //photoPanel.makeStatic(b);
         telephonePanel.makeStatic(b);
         bottomPanel.setVisible(!b);
-        //revalidate();
-        //repaint();
     }
     
     public JButton getReturnButton(){
@@ -88,5 +89,31 @@ public class ContactView extends JPanel{
     
     public void addTelephone( String[] values ){
         telephonePanel.addTelephone(values);
+    }
+    
+    public AddressView getAddressView(){ return this.addressPanel; }
+    public BirthdayView getBirthdayView(){ return this.birthdayPanel; }
+    public EmailView getEmailView(){ return this.emailPanel; }
+    public FormattedNameView getFormattedNameView(){ return this.formattedNamePanel; }
+    public NameView getNameView(){ return this.namePanel; }
+    public PhotoView getPhotoView(){ return this.photoPanel; }
+    public TelephoneView getTelephoneView(){ return this.telephonePanel; }
+    
+    public void setAddressView( AddressView av ){ this.addressPanel = av; }
+    public void setBirthdayView( BirthdayView bv ){ this.birthdayPanel = bv; }
+    public void setEmailView( EmailView ev ){ this.emailPanel = ev; }
+    public void setFormattedNameView( FormattedNameView fn ){ this.formattedNamePanel = fn; }
+    public void setNameView( NameView nv ){ this.namePanel = nv; }
+    public void setPhotoView( PhotoView pv ){ this.photoPanel = pv; }
+    public void setTelephoneView( TelephoneView tv ){ this.telephonePanel = tv; }
+
+    public ContactView(ContactView original){
+        this.addressPanel = original.addressPanel;
+        this.birthdayPanel = original.birthdayPanel;
+        this.emailPanel = original.emailPanel;
+        this.formattedNamePanel = original.formattedNamePanel;
+        this.namePanel = original.namePanel;
+        this.photoPanel = original.photoPanel;
+        this.telephonePanel = original.telephonePanel;
     }
 }

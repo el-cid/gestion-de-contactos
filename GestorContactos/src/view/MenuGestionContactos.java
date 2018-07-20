@@ -23,10 +23,10 @@ import javax.swing.JTextArea;
  * @author mizar
  */
 public class MenuGestionContactos extends JPanel {      
-    private JPanel cards = new JPanel(new CardLayout());
+    private JPanel bottomPanel = new JPanel(new GridLayout(1,4));
+    private JPanel panelBusqueda = new JPanel();
     private JPanel photoPanel = new JPanel();
     private JPanel bodyPanel = new JPanel( new BorderLayout() );
-    private JPanel mainPanel = new JPanel(new BorderLayout());
     private JButton buttonAnterior = new JButton("Anterior");
     private JButton buttonSiguiente = new JButton("Siguiente");
     private JButton buttonModificar = new JButton("Modificar contacto");
@@ -35,6 +35,7 @@ public class MenuGestionContactos extends JPanel {
     private JButton returnButton = new JButton("Regresar");
     private Block nameBlock = new Block();
     private Block lastNameBlock = new Block();
+    private ContactView contactBackup;
     private ArrayList<ContactView> contacts = new ArrayList<ContactView>();
     final static String MAINPANEL = "Pantalla raíz, con barra filtradora y botones.";
     final static String EDITPANEL = "Pantalla secundaria, para modificar un contacto.";
@@ -42,9 +43,10 @@ public class MenuGestionContactos extends JPanel {
     // Constructor to setup the GUI components and event handlers
     public MenuGestionContactos() {
        
-        setLayout(new BorderLayout());
-                        
-        JPanel panelBusqueda = new JPanel();
+        setLayout( new BorderLayout() );
+        
+        buttonModificar.addActionListener( new ModifyL() );
+        
         panelBusqueda.setLayout(new GridLayout(2,1));
         nameBlock.getTitleLabel().setText("Nombre:");
         panelBusqueda.add(nameBlock);
@@ -69,9 +71,7 @@ public class MenuGestionContactos extends JPanel {
         photoPanel.add(noContacts);
         bodyPanel.add(photoPanel, BorderLayout.CENTER);
         add(bodyPanel, BorderLayout.CENTER );
-        
-        JPanel bottomPanel = new JPanel(new GridLayout(1,4));
-        
+                
         JPanel panelButtonAdd = new JPanel(new FlowLayout());
         panelButtonAdd.add(buttonAdd);
         bottomPanel.add(panelButtonAdd);
@@ -91,6 +91,7 @@ public class MenuGestionContactos extends JPanel {
         bottomPanel.add(panelButtonRegresar);
         
         add(bottomPanel, BorderLayout.SOUTH);
+                
     }
    
     public void addContactView(ContactView contactView){
@@ -149,4 +150,24 @@ public class MenuGestionContactos extends JPanel {
         }
     }
     
+    private class ModifyL implements ActionListener {
+        public void actionPerformed(ActionEvent e) {            
+            //contactBackup = new ContactView(contacts.get(currentContact));
+            contacts.get(currentContact).getReturnButton().addActionListener(new ReturnL());
+            contacts.get(currentContact).makeStatic(false);
+            bottomPanel.setVisible(false);
+            panelBusqueda.setVisible(false);
+        }
+    }
+
+    private class ReturnL implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            
+            contacts.get(currentContact).makeStatic(true);
+            bottomPanel.setVisible(true);
+            panelBusqueda.setVisible(true);
+            revalidate();
+            repaint();
+        }
+    }
 }
