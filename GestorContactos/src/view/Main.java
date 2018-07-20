@@ -40,18 +40,17 @@ public class Main extends JFrame {
         importView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         exportView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         contactsView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
-        contactsView.getSelectionButton().addActionListener(new ReturnL(CONTACTPANEL));
-        contactView.getReturnButton().addActionListener(new ReturnL(CONTACTSPANEL));
+        contactsView.getSelectionButton().addActionListener(new SelectL());
+        contactView.getReturnButton().addActionListener(new ReturnFromContactL(CONTACTSPANEL));
         
         cards.add( login, LOGINPANEL );
         cards.add( mainMenu, MAINPANEL );
         cards.add( importView, IMPORTPANEL );
         cards.add( exportView, EXPORTPANEL );
         cards.add( contactsView, CONTACTSPANEL );
-        cards.add( contactView, CONTACTPANEL );
+        //-cards.add( contactView, CONTACTPANEL );
 
-        contactView.makeStatic( false );
-        
+       
         setContentPane( cards );
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Exit program if close-window button clicked
         setTitle("Mis contactos"); // "super" JFrame sets title
@@ -72,6 +71,19 @@ public class Main extends JFrame {
             }
     }
     
+    private class ReturnFromContactL implements ActionListener {
+            private String panelID = "";
+            public ReturnFromContactL(String panelStr){
+                this.panelID = panelStr;
+            }
+            
+            public void actionPerformed(ActionEvent e) {
+                contactView.makeStatic(true);//-
+                CardLayout cl = (CardLayout)(cards.getLayout());
+                cl.show(cards, panelID);
+            }
+    }
+    
     private class LoginL implements ActionListener {
             
             public void actionPerformed(ActionEvent e) {
@@ -79,8 +91,30 @@ public class Main extends JFrame {
                 cl.show(cards, MAINPANEL);
             }
     }
+    
+    private class SelectL implements ActionListener {
+            
+            public void actionPerformed(ActionEvent e) {
+          
+                //-contactView = contactsView.getCurrentContact();
+                //-contactView.makeStatic(false);
+                //-contactView.getReturnButton().addActionListener(new ReturnL(CONTACTSPANEL));
+                contactsView.getCurrentContact().getReturnButton().addActionListener(new ReturnFromContactL(CONTACTSPANEL));
+                contactsView.getCurrentContact().makeStatic(false);
+                CardLayout cl = (CardLayout)(cards.getLayout());
+                //-cards.add( contactView, CONTACTPANEL );//-
+                cards.add( contactsView.getCurrentContact(), CONTACTPANEL );//-
+                cl.show(cards, CONTACTPANEL);
+            }
+    }
    
+    /*
     public static void main(String[] args) {
         new Main();
+    }
+    */
+    
+    public void addContact(ContactView contact){
+        contactsView.addContactView( contact );
     }
 }

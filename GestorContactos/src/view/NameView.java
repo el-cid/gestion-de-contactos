@@ -28,8 +28,8 @@ public class NameView extends JPanel{
     
     private void initNameBlock(){
         String[] attributes = {"Nombre:", "Apellido:",
-                              "Segundo Nombre:", "Prefijo:",
-                              "Título:"};
+                              "Segundo Nombre:", "Título:",
+                              "Sufijo:"};
         String[] values = {"", "", "" , "", ""};       
         
         for (int i = 0; i < nameBlock.length; i++){
