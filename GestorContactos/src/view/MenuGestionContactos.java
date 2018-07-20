@@ -25,9 +25,9 @@ public class MenuGestionContactos extends JPanel {
    private JButton buttonAdd = new JButton("Añadir contacto");
    private JButton buttonEliminar = new JButton("Eliminar contacto");
    private JButton returnButton = new JButton("Regresar");
-   private InteractiveBlock nameBlock = new InteractiveBlock();
-   private InteractiveBlock lastNameBlock = new InteractiveBlock();
-   private ContactView contact = new ContactView("static");
+   private Block nameBlock = new Block();
+   private Block lastNameBlock = new Block();
+   private ContactView contact = new ContactView();
    // Constructor to setup the GUI components and event handlers
    public MenuGestionContactos() {
         
@@ -48,7 +48,8 @@ public class MenuGestionContactos extends JPanel {
         panelButtons.add(buttonAnterior);
         panelButtons.add(buttonSiguiente);
         add(panelButtons);
-        
+
+        contact.makeStatic( true );
         add(contact);
         
         JPanel bottomPanel = new JPanel(new GridLayout(1,4));

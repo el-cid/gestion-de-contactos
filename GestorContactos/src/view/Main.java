@@ -6,16 +6,10 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
  *
@@ -28,7 +22,7 @@ public class Main extends JFrame {
    private ImportView importView = new ImportView();
    private ExportView exportView = new ExportView();
    private MenuGestionContactos contactsView = new MenuGestionContactos();
-   private ContactView contactView = new ContactView("interactive");
+   private ContactView contactView = new ContactView();
    final static String LOGINPANEL = "Pantalla para ingresar.";
    final static String MAINPANEL = "Pantalla con el menú principal.";
    final static String IMPORTPANEL = "Pantalla para importar un archivo vcf.";
@@ -55,6 +49,9 @@ public class Main extends JFrame {
         cards.add( exportView, EXPORTPANEL );
         cards.add( contactsView, CONTACTSPANEL );
         cards.add( contactView, CONTACTPANEL );
+
+        contactView.makeStatic( false );
+        
         setContentPane( cards );
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Exit program if close-window button clicked
         setTitle("Mis contactos"); // "super" JFrame sets title

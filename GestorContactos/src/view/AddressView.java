@@ -19,7 +19,6 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class AddressView extends JPanel{
-   private String type = "";
    private JPanel addressTopPanel = new JPanel(new FlowLayout());
    private JPanel addressMiddlePanel = new JPanel();
    private JPanel addressBottomPanel = new JPanel(new FlowLayout());
@@ -29,18 +28,29 @@ public class AddressView extends JPanel{
    private ArrayList<JButton> deleteAddressButtons = new ArrayList<JButton>();
    private ArrayList<JPanel> addressMiddleList = new ArrayList<JPanel>();
    // Constructor to setup the GUI components and event handlers
-    public AddressView(String type) {
-        this.type = type;
+    public AddressView() {
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         addressTopPanel.add( header );
         this.add(addressTopPanel);
         addressMiddlePanel.setLayout(new BoxLayout(addressMiddlePanel,BoxLayout.Y_AXIS));
         this.add(addressMiddlePanel);
-        if ( type.equalsIgnoreCase("interactive") ){
-            addressBottomPanel.add(addAddressButton);
-            addAddressButton.addActionListener(new AddAddressListener());
-            this.add(addressBottomPanel);
+        
+        addressBottomPanel.add(addAddressButton);
+        addAddressButton.addActionListener(new AddAddressListener());
+        this.add(addressBottomPanel);
+        addressBottomPanel.setVisible(false);
+    }
+    
+    public void makeStatic(boolean b){
+        for ( Block[] blocks : addressBlock ){
+            for ( Block block : blocks ){
+                block.makeStatic( b );
+            }
         }
+        for ( JButton button : deleteAddressButtons ){
+            button.setVisible( !b );
+        }
+        addressBottomPanel.setVisible( !b );
     }
     
     private void addToAddressBlock(){
@@ -61,31 +71,21 @@ public class AddressView extends JPanel{
                                 "postalCode",
                                 "country"};
        
-           int top = addressBlock.size();
-           if ( this.type.equalsIgnoreCase("interactive") ){
-                addressBlock.add(new InteractiveBlock[8]);
-                for (int j = 0; j < 8; j++){
-                     addressBlock.get(top)[j] = new InteractiveBlock();
-                     addressBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
-                     InteractiveBlock newBlock = (InteractiveBlock) addressBlock.get(top)[j];
-                     if (j == 0){
-                         newBlock.getTextArea().setColumns(3);
-                     }
-                     else{
-                         newBlock.getTextArea().setColumns(5);
-                     }
-                     newBlock.getTextArea().setText(values[j]);
-                }
-           }
-           else if ( this.type.equalsIgnoreCase("static") ){
-                addressBlock.add(new StaticBlock[8]);
-                for (int j = 0; j < 8; j++){
-                     addressBlock.get(top)[j] = new StaticBlock();
-                     addressBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
-                     StaticBlock newBlock = (StaticBlock) addressBlock.get(top)[j];
-                     newBlock.getContentLabel().setText(values[j]);
-                }
-           }
+            int top = addressBlock.size();
+            int numberOfBlocks = 8;
+            addressBlock.add(new Block[ numberOfBlocks ]);
+            for (int j = 0; j < numberOfBlocks; j++){
+                 addressBlock.get(top)[j] = new Block();
+                 addressBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
+                 addressBlock.get(top)[j].setContent( values[j] );
+                 addressBlock.get(top)[j].updateBlock();
+                 if (j == 0){
+                     addressBlock.get(top)[j].getTextArea().setColumns(3);
+                 }
+                 else{
+                     addressBlock.get(top)[j].getTextArea().setColumns(5);
+                 }
+            }
     }
     
     private void addToAddressMiddleList(){
@@ -94,11 +94,12 @@ public class AddressView extends JPanel{
         for ( Block blockPair : addressBlock.get(size) ){
             addressMiddleList.get(size).add(blockPair);
         }
-        if ( this.type.equalsIgnoreCase("interactive") ){
-            deleteAddressButtons.add(new JButton("X"));
-            deleteAddressButtons.get(size).addActionListener(new DeleteAddressListener());
-            addressMiddleList.get(size).add(deleteAddressButtons.get(size));
-        }
+        
+        deleteAddressButtons.add(new JButton("X"));
+        deleteAddressButtons.get(size).addActionListener(new DeleteAddressListener());
+        //deleteAddressButtons.get(size).setVisible(false);
+        addressMiddleList.get(size).add(deleteAddressButtons.get(size));
+        
     }
         
     public void addAddress(){

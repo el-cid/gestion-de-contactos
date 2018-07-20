@@ -15,8 +15,8 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class Login extends JPanel{
-    private InteractiveBlock userName = new InteractiveBlock();
-    private InteractiveBlock userPassword = new InteractiveBlock();
+    private Block userName = new Block();
+    private Block userPassword = new Block();
     private JButton button = new JButton("Ingresar");
     public Login(){
         setLayout( new BoxLayout(this, BoxLayout.Y_AXIS) );

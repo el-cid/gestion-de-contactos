@@ -23,7 +23,7 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class ImportView extends JPanel{
-    private InteractiveBlock userInput = new InteractiveBlock();
+    private Block userInput = new Block();
     private JButton button = new JButton("Importar");
     private JButton returnButton = new JButton("Regresar");
     public ImportView(){
@@ -31,10 +31,11 @@ public class ImportView extends JPanel{
         JLabel headerLabel = new JLabel( "Importar archivo" );
         headerPanel.add( headerLabel );
         userInput.getTitleLabel().setText("Ruta del archivo:");
-        userInput.getTextArea().setText("arrastrar aquí");
+        userInput.setContent("arrastrar aquí");
+        userInput.updateBlock();
         userInput.getTextArea().setColumns(20);
         userInput.getTextArea().setRows(20);
-        
+        userInput.makeStatic(false);
         userInput.getTextArea().setDropTarget(new DropTarget() {
             public synchronized void drop(DropTargetDropEvent evt) {
                 try {

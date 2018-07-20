@@ -14,7 +14,6 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class TelephoneView extends JPanel{
-   private String type = "";
    private JPanel telephoneTopPanel = new JPanel(new FlowLayout());
    private JPanel telephoneMiddlePanel = new JPanel();
    private JPanel telephoneBottomPanel = new JPanel(new FlowLayout());
@@ -24,49 +23,48 @@ public class TelephoneView extends JPanel{
    private ArrayList<JButton> deleteTelephoneButtons = new ArrayList<JButton>();
    private ArrayList<JPanel> telephoneMiddleList = new ArrayList<JPanel>();
    // Constructor to setup the GUI components and event handlers
-    public TelephoneView(String type) {
-        this.type = type;
+    public TelephoneView() {
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         telephoneTopPanel.add( header );
         this.add( telephoneTopPanel );
         telephoneMiddlePanel.setLayout(new BoxLayout(telephoneMiddlePanel,BoxLayout.Y_AXIS));
         this.add(telephoneMiddlePanel);
 
-        if ( this.type.equalsIgnoreCase("interactive") ){
-            telephoneBottomPanel.add(addTelephoneButton);
-            addTelephoneButton.addActionListener(new AddTelephoneListener());
-            this.add(telephoneBottomPanel);
+        telephoneBottomPanel.add(addTelephoneButton);
+        addTelephoneButton.addActionListener(new AddTelephoneListener());
+        this.add(telephoneBottomPanel);
+        telephoneBottomPanel.setVisible(false);
+    }
+    
+    public void makeStatic(boolean b){
+            for ( Block[] blocks : telephoneBlock ){
+            for ( Block block : blocks ){
+                block.makeStatic( b );
+            }
         }
+        for ( JButton button : deleteTelephoneButtons ){
+            button.setVisible( !b );
+        }
+        telephoneBottomPanel.setVisible( !b );    
     }
     
     private void addToTelephoneBlock(){
         String[] attributes = {"Type:", "Número:"};
         String[] values = {"type", "número"};
-       
         int top = telephoneBlock.size();
-        if ( type.equalsIgnoreCase("interactive") ){
-            telephoneBlock.add(new InteractiveBlock[2]);
-            for (int j = 0; j < 2; j++){
-                telephoneBlock.get(top)[j] = new InteractiveBlock();
-                telephoneBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
-                InteractiveBlock newBlock = (InteractiveBlock) telephoneBlock.get(top)[j];
-                if (j == 0){
-                    newBlock.getTextArea().setColumns(3);
-                }
-                else{
-                    newBlock.getTextArea().setColumns(5);
-                }        
-                newBlock.getTextArea().setText(values[j]);
+        int numberOfBlocks = 2;
+        telephoneBlock.add(new Block[ numberOfBlocks ]);
+        for (int j = 0; j < numberOfBlocks; j++){
+            telephoneBlock.get(top)[j] = new Block();
+            telephoneBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
+            telephoneBlock.get(top)[j].setContent(values[j]);
+            telephoneBlock.get(top)[j].updateBlock();
+            if (j == 0){
+                telephoneBlock.get(top)[j].getTextArea().setColumns(3);
             }
-        }
-        else if ( type.equalsIgnoreCase("static") ){
-            telephoneBlock.add(new StaticBlock[2]);
-            for (int j = 0; j < 2; j++){
-                telephoneBlock.get(top)[j] = new StaticBlock();
-                telephoneBlock.get(top)[j].getTitleLabel().setText(attributes[j]);
-                StaticBlock newBlock = (StaticBlock) telephoneBlock.get(top)[j];   
-                newBlock.getContentLabel().setText(values[j]);
-            }
+            else{
+                telephoneBlock.get(top)[j].getTextArea().setColumns(5);
+            }        
         }
     }
     
@@ -76,11 +74,12 @@ public class TelephoneView extends JPanel{
         for ( Block blockPair : telephoneBlock.get(size) ){
             telephoneMiddleList.get(size).add(blockPair);
         }
-        if ( type.equalsIgnoreCase("interactive") ){    
-            deleteTelephoneButtons.add(new JButton("X"));
-            deleteTelephoneButtons.get(size).addActionListener(new DeleteTelephoneListener());
-            telephoneMiddleList.get(size).add(deleteTelephoneButtons.get(size));
-        }
+        
+        deleteTelephoneButtons.add(new JButton("X"));
+        deleteTelephoneButtons.get(size).addActionListener(new DeleteTelephoneListener());
+        //deleteTelephoneButtons.get(size).setVisible(false);
+        telephoneMiddleList.get(size).add(deleteTelephoneButtons.get(size));
+   
     }
         
     public void addTelephone(){

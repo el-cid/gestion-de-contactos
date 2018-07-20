@@ -6,6 +6,7 @@
 package view;
 
 import java.awt.FlowLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -13,11 +14,9 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class NameView extends JPanel{
-    private String type = "";
     private Block[] nameBlock = new Block[5];
     
-    public NameView(String type){
-        this.type = type;
+    public NameView(){
         initNameBlock();    
         JPanel panel = new JPanel(new FlowLayout());
         for ( Block block : nameBlock ){
@@ -35,22 +34,20 @@ public class NameView extends JPanel{
                           "additional name" , "honorific preffix",
                           "honorific suffix"};
        
-        if ( this.type.equalsIgnoreCase("interactive") ){
-            for (int i = 0; i < nameBlock.length; i++){
-                InteractiveBlock block = new InteractiveBlock();
-                block.getTitleLabel().setText(attributes[i]);
-                block.getTextArea().setColumns(8);
-                block.getTextArea().setText(values[i]);
-                nameBlock[i] = block;
-            }
-        }
-        else if ( this.type.equalsIgnoreCase("static") ){
-            for (int i = 0; i < nameBlock.length; i++){
-                StaticBlock block = new StaticBlock();
-                block.getTitleLabel().setText(attributes[i]);
-                block.getContentLabel().setText(values[i]);
-                nameBlock[i] = block;
-            }
+        
+        for (int i = 0; i < nameBlock.length; i++){
+            nameBlock[i] = new Block();
+            nameBlock[i].getTitleLabel().setText(attributes[i]);
+            nameBlock[i].getTextArea().setColumns(8);
+            nameBlock[i].setContent(values[i]);
+            nameBlock[i].updateBlock();
+        }        
+    }
+    
+    public void makeStatic(boolean b){  
+        for ( Block block : nameBlock ){
+            block.makeStatic( b );
         }
     }
+
 }

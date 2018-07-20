@@ -18,35 +18,27 @@ import javax.swing.JPanel;
  */
 public class ContactView extends JPanel{
     
-    private String type = "";
-    private AddressView addressPanel;
-    private BirthdayView birthdayPanel;
-    private EmailView emailPanel;
-    private FormattedNameView formattedNamePanel;
-    private NameView namePanel;
-    private PhotoView photoPanel;
-    private TelephoneView telephonePanel;
+    private AddressView addressPanel = new AddressView();
+    private BirthdayView birthdayPanel = new BirthdayView();
+    private EmailView emailPanel = new EmailView();
+    private FormattedNameView formattedNamePanel = new FormattedNameView();
+    private NameView namePanel = new NameView();
+    private PhotoView photoPanel = new PhotoView();
+    private TelephoneView telephonePanel = new TelephoneView();
     private JLabel headerLabel = new JLabel("Contacto");
     private JButton bottomButton = new JButton("Guardar cambios");
     private JButton returnButton = new JButton("Regresar");
-    
-    public ContactView(String type){
+    private JPanel bottomPanel = new JPanel(new GridLayout(1,2));
+    public ContactView(){
         
-        this.type = type;
-        addressPanel  = new AddressView(this.type);
+        addressPanel  = new AddressView();
         birthdayPanel = new BirthdayView();
-        emailPanel = new EmailView(this.type);
-        formattedNamePanel = new FormattedNameView(this.type);
-        namePanel = new NameView(this.type);
+        emailPanel = new EmailView();
+        formattedNamePanel = new FormattedNameView();
+        namePanel = new NameView();
         photoPanel = new PhotoView();
-        telephonePanel = new TelephoneView(this.type);
-        
-        if ( this.type.equalsIgnoreCase("static") ){
-            addressPanel.addAddress();
-            emailPanel.addEmail();
-            telephonePanel.addTelephone();
-        }
-        
+        telephonePanel = new TelephoneView();
+      
         JPanel headerPanel = new JPanel(new FlowLayout());
         headerPanel.add(headerLabel);
         this.add(headerPanel);
@@ -58,17 +50,30 @@ public class ContactView extends JPanel{
         this.add(addressPanel);
         this.add(emailPanel);
         
-        if ( this.type.equalsIgnoreCase("interactive") ){
-            JPanel bottomPanel = new JPanel(new GridLayout(1,2));
-            JPanel firstButtonPanel = new JPanel(new FlowLayout());
-            firstButtonPanel.add(bottomButton);
-            JPanel secondButtonPanel = new JPanel(new FlowLayout());
-            secondButtonPanel.add(returnButton);
-            bottomPanel.add(firstButtonPanel);
-            bottomPanel.add(secondButtonPanel);
-            this.add(bottomPanel);
-        }
+        
+        
+        JPanel firstButtonPanel = new JPanel(new FlowLayout());
+        firstButtonPanel.add(bottomButton);
+        JPanel secondButtonPanel = new JPanel(new FlowLayout());
+        secondButtonPanel.add(returnButton);
+        bottomPanel.add(firstButtonPanel);
+        bottomPanel.add(secondButtonPanel);
+        bottomPanel.setVisible(false);
+        this.add(bottomPanel);
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));       
+    }
+    
+    public void makeStatic(boolean b){
+        addressPanel.makeStatic(b);
+        //birthdayPanel.makeStatic(b);
+        emailPanel.makeStatic(b);
+        formattedNamePanel.makeStatic(b);
+        namePanel.makeStatic(b);
+        //photoPanel.makeStatic(b);
+        telephonePanel.makeStatic(b);
+        bottomPanel.setVisible(!b);
+        //revalidate();
+        //repaint();
     }
     
     public JButton getReturnButton(){
