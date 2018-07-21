@@ -25,6 +25,7 @@ public class ExportView extends JPanel{
     private JButton returnButton = new JButton("Regresar");
     private JButton buttonExportar = new JButton("Exportar");
     private JButton buttonSeleccionar = new JButton("Seleccionar ruta y nombre del archivo");
+    private String filePath = "";
     public ExportView(){
         JPanel headerPanel = new JPanel( new FlowLayout() );
         JLabel headerLabel = new JLabel( "Exportar archivo" );
@@ -64,15 +65,25 @@ public class ExportView extends JPanel{
         return this.returnButton;
     }
     
+    public JButton getExportButton(){
+        return this.buttonExportar;
+    }
+    
+    public String getFilePath(){
+        return this.filePath;
+    }
+    
     class SaveL implements ActionListener {
     
     public void actionPerformed(ActionEvent e) {
       JFileChooser c = new JFileChooser();
+      
       // Demonstrate "Save" dialog:
       int rVal = c.showSaveDialog( null );
       if (rVal == JFileChooser.APPROVE_OPTION) {
-        fileName.getContentLabel().setText(c.getSelectedFile().getName());
         fileDirectory.getContentLabel().setText(c.getCurrentDirectory().toString());
+        fileName.getContentLabel().setText(c.getSelectedFile().getName());
+        filePath = c.getCurrentDirectory().toString() + "/" + c.getSelectedFile().getName();
       }
       if (rVal == JFileChooser.CANCEL_OPTION) {
         fileName.getContentLabel().setText("You pressed cancel");

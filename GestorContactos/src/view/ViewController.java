@@ -44,6 +44,7 @@ public class ViewController extends JFrame {
         importView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         importView.getImportButton().addActionListener(new ImportL());
         exportView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
+        exportView.getExportButton().addActionListener(new ExportL());
         menuContactos.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
 
         cards.add( login, LOGINPANEL );
@@ -105,6 +106,21 @@ public class ViewController extends JFrame {
             }
     }
     
+    private class ExportL implements ActionListener {
+            
+        public void actionPerformed(ActionEvent e) {
+            String filePath = exportView.getFilePath();
+            if ( filePath.equalsIgnoreCase("") ){
+                String title = "Error";
+                String message = "Necesitas proporcionar una ruta y nombre de archivo.";
+                JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                control.contactViewsToContacts( menuContactos.getContactViews() );
+                control.exportContactsToFile(filePath);
+            }
+        }
+    }
     private class ImportL implements ActionListener {
             
         public void actionPerformed(ActionEvent e) {

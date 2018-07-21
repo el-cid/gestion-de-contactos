@@ -8,6 +8,7 @@ import java.util.Arrays;
 import model.Address;
 import model.Contact;
 import model.Email;
+import model.FileExporter;
 import model.Telephone;
 import parser.SyntaxChecker;
 import view.Block;
@@ -79,7 +80,7 @@ public class Controller {
                     mainView.addContact(contactoVisual);
           
                 }
-                
+                is.close();
             }
             else{
                 System.out.println("Error durante la apertura del archivo.");
@@ -91,6 +92,11 @@ public class Controller {
     
     public void setMainView(ViewController mainView){
         this.mainView = mainView;
+    }
+    
+    public void exportContactsToFile( String filePath ){
+        FileExporter fileExporter = new FileExporter( filePath );
+        fileExporter.writeContacts( contactList );
     }
     
     public void contactsToContactViews(){
