@@ -10,16 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.JPanel;
 import control.Controller;
-import java.util.ArrayList;
-import java.util.Properties;
+import static javax.swing.JOptionPane.YES_OPTION;
 /**
  *
  * @author mizar
  */
-public class Main extends JFrame {   
+public class ViewController extends JFrame {   
     private Controller control;
     private JPanel cards = new JPanel(new CardLayout());
     private Login login = new Login();
@@ -27,8 +25,8 @@ public class Main extends JFrame {
     private ImportView importView = new ImportView();
     private ExportView exportView = new ExportView();
     private MenuGestionContactos menuContactos = new MenuGestionContactos();
-    private ArrayList<ContactView> userContacts = new ArrayList<ContactView>();
-    private Properties map = new Properties();
+    //private ArrayList<ContactView> userContacts = new ArrayList<ContactView>();
+  
     final static String LOGINPANEL = "Pantalla para ingresar.";
     final static String MAINPANEL = "Pantalla con el menú principal.";
     final static String IMPORTPANEL = "Pantalla para importar un archivo vcf.";
@@ -36,7 +34,7 @@ public class Main extends JFrame {
     final static String CONTACTPANEL = "Pantalla para gestionar un contacto.";
     final static String CONTACTSPANEL = "Pantalla para gestionar los contactos de un usuario.";
     // Constructor to setup the GUI components and event handlers
-    public Main() {
+    public ViewController() {
         
         login.getLoginButton().addActionListener(new LoginL());
         mainMenu.getImportButton().addActionListener(new ReturnL(IMPORTPANEL));
@@ -47,11 +45,7 @@ public class Main extends JFrame {
         importView.getImportButton().addActionListener(new ImportL());
         exportView.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
         menuContactos.getReturnButton().addActionListener(new ReturnL(MAINPANEL));
-        //
-        for ( ContactView contactView : this.userContacts ){
-            menuContactos.add(contactView);
-        }
-        //
+
         cards.add( login, LOGINPANEL );
         cards.add( mainMenu, MAINPANEL );
         cards.add( importView, IMPORTPANEL );
@@ -83,29 +77,31 @@ public class Main extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String user = login.getUserNameBlock().getTextArea().getText();
                 String password = login.getUserPasswordBlock().getTextArea().getText();
-                //if user y password son validos
-                    //userContacts = control.loadUserContacts( userID )
-                //else notificar error
-                /*
-                    for ( ContactView contactView : userContacts ){
-                        addContact( contactView );
+                if ( ( ( user.matches(".*\\w.*") ) & ( password.matches(".*\\w.*") ) ) ){
+                    /*
+                    boolean validAccount = control.verifyAccount( user, password );
+                    if ( validAccount ){
+                        control.loadUserContacts( userID );
+                        control.contactsToContactViews();
+                        CardLayout cl = (CardLayout)(cards.getLayout());
+                        cl.show(cards, MAINPANEL);
                     }
-                */
+                    else{ 
+                        String title = "Datos incorrectos";
+                        String message = "Verifica tus datos, por favor.";
+                        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);                
+                    }
+                    */
+                }
+                else{
+                    String title = "Entrada invalida";
+                    String message = "Inserta un identificador de usuario y una contraseña, por favor.";
+                    JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);                
+                }
+                //Una vez que la sección de arriba funcione, eliminar las dos lineas siguientes
                 CardLayout cl = (CardLayout)(cards.getLayout());
                 cl.show(cards, MAINPANEL);
-            }
-    }
-    
-    private class LogoutL implements ActionListener {
-            private String panelID = "";
-            public LogoutL(String panelStr){
-                this.panelID = panelStr;
-            }
-            
-            public void actionPerformed(ActionEvent e) {
-                logout();
-                CardLayout cl = (CardLayout)(cards.getLayout());
-                cl.show(cards, panelID);
+                //Una vez que la sección de arriba funcione, eliminar las dos lineas anteriores
             }
     }
     
@@ -124,38 +120,48 @@ public class Main extends JFrame {
         }
     }
     
-    public void addContact(ContactView contact){
-        menuContactos.addContactView( contact );
-    }
-    
-    public void setUserContactViews( ArrayList<ContactView> contacts){
-        this.userContacts = contacts;
-    }
-    
-    public ArrayList<ContactView> getUserContactView( ){
-        return this.userContacts;
-    }
+    private class LogoutL implements ActionListener {
+        private String panelID = "";
+        public LogoutL(String panelStr){
+            this.panelID = panelStr;
+        }
 
-    public void logout(){
+        public void actionPerformed(ActionEvent e) {
+            boolean logoutConfirmed = logout();
+            if ( logoutConfirmed ){
+                CardLayout cl = (CardLayout)(cards.getLayout());
+                cl.show(cards, panelID);
+            }
+            else{
+            
+            }
+        }
+    }
+     
+    public boolean logout(){
         Object[] options = {"Si",
-                        "No"};
+                            "No"};
         int n = JOptionPane.showOptionDialog(new JFrame(),
         "¿Deseas guardar los cambios realizados?",
         "Notificación",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
-        null,     //do not use a custom Icon
-        options,  //the titles of buttons
-        options[0]); //default button title
+        null,     
+        options,  
+        options[0]); 
         if ( n == YES_OPTION){
-            userContacts = menuContactos.getContactViews();
-            control.saveChanges( userContacts );
+            control.saveChanges( menuContactos.getContactViews() );
+            return true;
         }
         else {
-            
+            return false;
         }
     }
-
+    
+    public void addContact(ContactView contact){
+        menuContactos.addContactView( contact );
+    }
+    
     public void setController(Controller control){
         this.control = control;
     }

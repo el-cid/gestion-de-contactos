@@ -12,12 +12,12 @@ import model.Telephone;
 import parser.SyntaxChecker;
 import view.Block;
 import view.ContactView;
-import view.Main;
+import view.ViewController;
 
 public class Controller {
-    private Main mainView;
+    private ViewController mainView;
     private ArrayList<Contact> contactList = new ArrayList<Contact>();
-    private String lastContactID = "";
+    
     public void parseFile(String filePath){
         try {
             File fileToParse = new File( filePath );
@@ -26,17 +26,10 @@ public class Controller {
                 SyntaxChecker scheck = new SyntaxChecker( is );
                 contactList = new ArrayList<Contact>();
                 scheck.S( contactList );
-                //La siguiente linea debera modificarse porque el contacto podría tener 
-                //contactos registrados en la BD
-                int id = 1;
                 for ( Contact c : contactList ){
                    
                     ContactView contactoVisual = new ContactView();
-                    //
-                    c.setContactID( id + Integer.parseInt( lastContactID ) + "" );
-                    contactoVisual.setContactViewID( id + "" );
-                    contactoVisual.setState("old");//debería ser new
-                    // 
+          
                     contactoVisual.setFormattedName(c.getFormattedName());
 
                     String[] name = new String[5];
@@ -84,9 +77,9 @@ public class Controller {
                     }
                     
                     mainView.addContact(contactoVisual);
-                    id++;
+          
                 }
-                lastContactID = id + Integer.parseInt( lastContactID ) + "";
+                
             }
             else{
                 System.out.println("Error durante la apertura del archivo.");
@@ -96,16 +89,16 @@ public class Controller {
         }
     }
     
-    public void contactsToContactView( ArrayList<Contact> contacts ){
-        for ( Contact c : contacts ){
+    public void setMainView(ViewController mainView){
+        this.mainView = mainView;
+    }
+    
+    public void contactsToContactViews(){
+        for ( Contact c : contactList ){
+           
             ContactView contactoVisual = new ContactView();
-            //
-            //c.setContactID( id + "" );
-            lastContactID = c.getContactID();
-            contactoVisual.setContactViewID( c.getContactID() );
-            contactoVisual.setState("old");//debería ser new
-            // 
-            contactoVisual.setFormattedName(c.getFormattedName());
+    
+            contactoVisual.setFormattedName( c.getFormattedName() );
 
             String[] name = new String[5];
             name[0] = c.getName().getFamilyName();//
@@ -156,81 +149,79 @@ public class Controller {
         }
     }
     
-    public void setMainView(Main mainView){
-        this.mainView = mainView;
-    }
-    
-    public Contact contactViewToContact(ContactView contactView ){
-        Contact modifiedContact = new Contact();
-        ArrayList<Block[]> addresses = contactView.getAddressView().getAddressesBlocks();
-        for ( Block[] address : addresses ){
-            modifiedContact.addAddress( address[0].getContent(),
-                                        address[1].getContent(), 
-                                        address[2].getContent(), 
-                                        address[3].getContent(), 
-                                        address[4].getContent(), 
-                                        address[5].getContent(), 
-                                        address[6].getContent(), 
-                                        address[7].getContent()
-                                      );
-        }
-        int day = contactView.getBirthdayView().getDateModel().getDay();
-        int month = contactView.getBirthdayView().getDateModel().getMonth();
-        int year = contactView.getBirthdayView().getDateModel().getYear();
-        modifiedContact.setBirthday( year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day) );
-        ArrayList<Block[]> emails = contactView.getEmailView().getEmailsBlocks();
-        for ( Block[] email : emails ){
-            String[] types = email[0].getContent().split("\\s+");
-            modifiedContact.addEmail( email[1].getContent() , new ArrayList<>(Arrays.asList( types )));
-        }
-        modifiedContact.setFormattedName( contactView.getFormattedNameView().getFormattedName() );
-        Block[] name = contactView.getNameView().getBlocks();
-        modifiedContact.getName().setGivenName( name[0].getContent() );
-        modifiedContact.getName().setFamilyName( name[1].getContent() );
-        modifiedContact.getName().setAdditionalName( name[2].getContent() );
-        modifiedContact.getName().setHonorificPreffix( name[3].getContent() );
-        modifiedContact.getName().setHonorificSuffix( name[4].getContent() );
-        ArrayList<Block[]> telephones = contactView.getTelephoneView().getTelephonesBlocks();
-        for ( Block[] telephone : telephones ){
-            String[] types = telephone[0].getContent().split("\\s+");
-            modifiedContact.addTelephone( telephone[1].getContent() , new ArrayList<>(Arrays.asList( types )));
-        }
-        //System.out.println( modifiedContact.toString() );
-        return modifiedContact;
+    public void contactViewsToContacts( ArrayList<ContactView> contactViews ){
+        contactList = new ArrayList<Contact>();
+        for ( int i = 0; i < contactViews.size(); i++ ){
+            contactList.add( new Contact()  );
+            ContactView contactView = contactViews.get(i);
+            ArrayList<Block[]> addresses = contactView.getAddressView().getAddressesBlocks();
+            for ( Block[] address : addresses ){
+                contactList.get(i).addAddress( address[0].getContent(),
+                                            address[1].getContent(), 
+                                            address[2].getContent(), 
+                                            address[3].getContent(), 
+                                            address[4].getContent(), 
+                                            address[5].getContent(), 
+                                            address[6].getContent(), 
+                                            address[7].getContent()
+                                          );
+            }
+            int day = contactView.getBirthdayView().getDateModel().getDay();
+            int month = contactView.getBirthdayView().getDateModel().getMonth();
+            int year = contactView.getBirthdayView().getDateModel().getYear();
+            contactList.get(i).setBirthday( year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day) );
+            ArrayList<Block[]> emails = contactView.getEmailView().getEmailsBlocks();
+            for ( Block[] email : emails ){
+                String[] types = email[0].getContent().split("\\s+");
+                contactList.get(i).addEmail( email[1].getContent() , new ArrayList<>(Arrays.asList( types )));
+            }
+            contactList.get(i).setFormattedName( contactView.getFormattedNameView().getFormattedName() );
+            Block[] name = contactView.getNameView().getBlocks();
+            contactList.get(i).getName().setGivenName( name[0].getContent() );
+            contactList.get(i).getName().setFamilyName( name[1].getContent() );
+            contactList.get(i).getName().setAdditionalName( name[2].getContent() );
+            contactList.get(i).getName().setHonorificPreffix( name[3].getContent() );
+            contactList.get(i).getName().setHonorificSuffix( name[4].getContent() );
+            ArrayList<Block[]> telephones = contactView.getTelephoneView().getTelephonesBlocks();
+            for ( Block[] telephone : telephones ){
+                String[] types = telephone[0].getContent().split("\\s+");
+                contactList.get(i).addTelephone( telephone[1].getContent() , new ArrayList<>(Arrays.asList( types )));
+            }
+        }    
     }
     
     public void saveChanges( ArrayList<ContactView> contactViews ){
-        for ( ContactView contactView : contactViews ){
-            String contactViewID = contactView.getContactViewID();
-            String state = contactView.getState();
-            System.out.println( "ID: " + contactViewID + " State: " + state );
-            if ( state.equalsIgnoreCase("new") ){
-                Contact newContact = contactViewToContact( contactView );//crear nueva tupla en la BD (escribir)
-            }
-            else{
-                for ( Contact contact : contactList ){
-                    String contactID = contact.getContactID();
-                    if ( contactViewID.equalsIgnoreCase( contactID ) ){
-                        if ( state.equalsIgnoreCase("modified") ){
-                            Contact newContact = contactViewToContact( contactView );
-                            newContact.setContactID( contactID );
-                            //UPDATE contactos WHERE ID = contactID, sobreescribir con newContact
-                        }
-                        else if ( state.equalsIgnoreCase("Deleted") ){
-                            //eliminar contacto de la BD WHERE ID = contactID
-                        }
-                    }
-                }
-            }
+        //Aquí se podría reiniciar la base de datos
+        
+        //Aquí se podría reiniciar la base de datos
+        contactViewsToContacts( contactViews );
+        for ( Contact contact : contactList ){
+            //Escribir contact a BD
         }
     }
     
-    //public ArrayList<Contact> loadUserContacts( userID ){}
+    /*
+    public void loadUserContacts( String userID ){
+        contactList = new ArrayList<Contact>();
+        // Extraer los Contactos del usuario y añadirlos a la lista contactList
+        // o
+        // Extraer los Contactos del usuario como un ArrayList y asignarlo a contactList
+    }
+    */
     
-    public static void main(String[] args) {
-           Controller control = new Controller();
-           Main main = new Main();
-           main.setController(control);
-           control.setMainView(main);
-    } 
+    /*
+    public boolean verifyAccount( String userID, String password ){
+        boolean userExist = false;
+        //Revisar en la BD si existe ese usuario y si la contraseña es correcta
+        //Registrar el resulta de la busqueda en la BD en userExist
+        //Si el usuarioExiste, asignar true a userExist
+        if ( userExist ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    */
+    
 }

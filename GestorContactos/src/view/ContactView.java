@@ -17,7 +17,6 @@ import javax.swing.JPanel;
  * @author mizar
  */
 public class ContactView extends JPanel{
-    private String state = "";
     private String contactViewID = "";
     private AddressView addressPanel = new AddressView();
     private BirthdayView birthdayPanel = new BirthdayView();
@@ -62,7 +61,7 @@ public class ContactView extends JPanel{
         emailPanel.makeStatic(b);
         formattedNamePanel.makeStatic(b);
         namePanel.makeStatic(b);
-        //photoPanel.makeStatic(b);
+        
         telephonePanel.makeStatic(b);
         bottomPanel.setVisible(!b);
     }
@@ -73,14 +72,6 @@ public class ContactView extends JPanel{
     
     public void setContactViewID( String id ){
         this.contactViewID = id;
-    }
-    
-    public String getState(){
-        return this.state;
-    }
-    
-    public void setState( String st ){
-        this.state = st;
     }
     
     public JButton getReturnButton(){
@@ -108,19 +99,31 @@ public class ContactView extends JPanel{
     }
     
     public AddressView getAddressView(){ return this.addressPanel; }
+    
     public BirthdayView getBirthdayView(){ return this.birthdayPanel; }
+    
     public EmailView getEmailView(){ return this.emailPanel; }
+    
     public FormattedNameView getFormattedNameView(){ return this.formattedNamePanel; }
+    
     public NameView getNameView(){ return this.namePanel; }
+    
     public PhotoView getPhotoView(){ return this.photoPanel; }
+    
     public TelephoneView getTelephoneView(){ return this.telephonePanel; }
     
     public void setAddressView( AddressView av ){ this.addressPanel = av; }
+    
     public void setBirthdayView( BirthdayView bv ){ this.birthdayPanel = bv; }
+    
     public void setEmailView( EmailView ev ){ this.emailPanel = ev; }
+    
     public void setFormattedNameView( FormattedNameView fn ){ this.formattedNamePanel = fn; }
+    
     public void setNameView( NameView nv ){ this.namePanel = nv; }
+    
     public void setPhotoView( PhotoView pv ){ this.photoPanel = pv; }
+    
     public void setTelephoneView( TelephoneView tv ){ this.telephonePanel = tv; }
     
     public void update(){

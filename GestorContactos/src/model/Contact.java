@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 public class Contact{
-    private String contactID = "";
     private Name name = new Name();
     private String formattedName = "";
     private String birthday = "";
@@ -13,13 +12,18 @@ public class Contact{
     private ArrayList<Address> addresses = new ArrayList<Address>();
     
     public Name getName() { return name; }
+    
     public ArrayList<Telephone> getTelephones() { return telephones; }
+    
     public ArrayList<Email> getEmails() { return emails; }
+    
     public ArrayList<Address> getAddresses() { return addresses; }
+    
     public Photo getPhoto() { return photo; }
+    
     public String getFormattedName() { return formattedName; }
+    
     public String getBirthday() { return birthday; }
-    public String getContactID() { return contactID; }
     
     public void addTelephone(String value, ArrayList<String> types){
     	 Telephone tel = new Telephone();
@@ -29,6 +33,7 @@ public class Contact{
 	 tel.setValue(value);
 	 telephones.add(tel);
     }
+    
     public void addEmail(String value, ArrayList<String> types){
     	 Email em = new Email();
 	 for (String type: types){
@@ -37,6 +42,7 @@ public class Contact{
 	 em.setValue(value);
 	 emails.add(em);
     }
+    
     public void addAddress(String type, String poa, String ext, String street, String loc, String reg, String cp, String country){
     	Address address = new Address();
 	address.setType(type);
@@ -49,9 +55,10 @@ public class Contact{
 	address.setCountry(country);
 	addresses.add(address);
     }
+    
     public void setFormattedName( String fname ) { formattedName = fname; }
+    
     public void setBirthday( String bday ) { birthday = bday; }
-    public void setContactID( String id ) { this.contactID = id; }
     
     public String toString(){
         String contactInfo  = "";
