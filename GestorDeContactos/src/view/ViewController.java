@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import control.Controller;
+import java.awt.event.WindowEvent;
 import static javax.swing.JOptionPane.YES_OPTION;
 /**
  *
@@ -171,18 +172,14 @@ public class ViewController extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            boolean logoutConfirmed = logout();
-            if ( logoutConfirmed ){
-                CardLayout cl = (CardLayout)(cards.getLayout());
-                cl.show(cards, panelID);
-            }
-            else{
-            
-            }
+            logout();
+            /*CardLayout cl = (CardLayout)(cards.getLayout());
+            cl.show(cards, panelID);*/
+            //this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
     }
      
-    public boolean logout(){
+    public void logout(){
         Object[] options = {"Si",
                             "No"};
         int n = JOptionPane.showOptionDialog(new JFrame(),
@@ -195,11 +192,8 @@ public class ViewController extends JFrame {
         options[0]); 
         if ( n == YES_OPTION){
             control.saveChanges( menuContactos.getContactViews() );
-            return true;
-        }
-        else {
-            return false;
-        }
+        }    
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
     
     public void addContact(ContactView contact){

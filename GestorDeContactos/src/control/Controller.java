@@ -45,7 +45,7 @@ public class Controller {
     }
     
     public void importFromDatabase(){
-        
+        contactList = new ArrayList<Contact>();//
         ArrayList<Contact> contactListFromDB = new ArrayList<Contact>();
         try {
             dq =  new databaseQuery();
@@ -80,7 +80,7 @@ public class Controller {
         }
         
         try {
-            dq.deleteAndBuildDatabase();
+            dq.deleteAndBuildUserData(userPK);
         } catch (SQLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }

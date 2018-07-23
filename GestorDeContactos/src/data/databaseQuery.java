@@ -338,7 +338,7 @@ public class databaseQuery {
         
     }
     
-    public void deleteAndBuildDatabase() throws SQLException{
+    public void deleteAndBuildUserData( int userID ) throws SQLException{
         this.conn = DATASOURCE.getConnection();
         int r=-1;
         
@@ -346,7 +346,8 @@ public class databaseQuery {
         ResultSet rs;
         Statement stmt = conn.createStatement();
      
-        query = "DELETE FROM Name;";
+        query = "DELETE FROM Name WHERE name_ID IN (SELECT name_ID FROM Contact WHERE usuario_id = "+userID+");";
+        
         stmt.executeUpdate(query);
         
     }
