@@ -1,6 +1,6 @@
 # Gestión de contactos
 
-Este gestor de contactos permite importar los contactos de un celular, a partir de un archivo VCF versión 2.1, con el fin de respaldarlos en una base de datos y facilitar su manipulación mediante una computadora de escritorio. 
+Este gestor de contactos permite importar los contactos de un celular, a partir de un archivo VCF versión 2.1, con el fin de respaldarlos en una base de datos y facilitar su manipulación mediante una computadora de escritorio. El sistema soporta múltiples usuarios.
 
 El gestor soporta la mayor parte de los datos que pueden ser almacenados en un archivo VCF 2.1, de acuerdo al estándar 
 <a href="https://tools.ietf.org/html/rfc2425">RFC 2425</a>
@@ -43,4 +43,28 @@ Para lograr apreciar con mayor detalle la estructura de las clases que componen 
   <img src="https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20view.png">
 </p>
 
-aaaa
+Se desarrollaron algunos diagramas de secuencia durante el desarrollo del gestor de contactos. En estos diagramas de secuencia se muestra el flujo de algunas actividades que puede realizar el usuario con el sistema, por ejemplo: iniciar sesión y exportar contactos:
+
+<p align="center">
+  <b>Iniciar sesión:</b><br>
+  <img src="https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20secuencia%20iniciarSesion.png">
+</p>
+
+<p align="center">
+  <b>Exportar contactos:</b><br>
+  <img src="https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20secuencia%20exportarContactos.png">
+</p>
+
+## Funcionamiento
+
+Finalmente se muestran algunas imagenes del gestor de contactos en funcionamiento:
+
+### Acceso al sistema
+
+### Pantalla principal
+
+### Importar contactos
+
+### Gestionar contactos
+
+### Exportar contactos
