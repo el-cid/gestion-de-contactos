@@ -61,10 +61,30 @@ Finalmente se muestran algunas imagenes del gestor de contactos en funcionamient
 
 ### Acceso al sistema
 
+Esta es la primera pantalla del programa, en ella, se realiza la autentificación de las credenciales de un usuario o la creación de un nuevo usuario.
+
 ### Pantalla principal
+
+En esta sección se puede seleccionar una de las funciones principales del gestor: importar contactos, gestionar contactos o exportar contactos.
+
+![Main](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/Screenshot%20from%202019-03-14%2017-25-58.png)
 
 ### Importar contactos
 
+En esta sección se puede arrastrar un archivo VCF y su contenido es procesado y añadido a la base de datos del gestor. 
+
+![Import contacts](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/importar_1.PNG)
+
 ### Gestionar contactos
 
+Esta sección permite observar y modificar los contactos de un usuario, así como añadir nuevos contactos directamente desde el gestor.
+
+![Manage contacts](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/gestionar.PNG)
+
+![Manage contacts 2](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/modificar_contacto.PNG)
+
 ### Exportar contactos
+
+Por último, esta funcionalidad permite exportar los contactos de un usuario a un nuevo archivo VCF, que puede ser interpretado por un dispositivo móvil.
+
+![Export contacts](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/exportar_contactos.PNG)
