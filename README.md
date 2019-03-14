@@ -28,8 +28,19 @@ La estructura general de las clases que conforman el gestor se pueden observar e
 
 Para lograr apreciar con mayor detalle la estructura de las clases que componen las capas de software del gestor, se muestran los diagramas de clases de las capas de control, datos, modelo y presentación:
 
-![Model class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama_clases_modelo.png)
+<p align="center">
+  <b>Capa de modelo:</b><br>
+  <img src="https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama_clases_modelo.png">
+</p>
 
-![Data class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20controlYdata.png)
+<p align="center">
+  <b>Capa de control y datos:</b><br>
+  <img src="https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20controlYdata.png">
+</p>
 
-![View class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20view.png)
+<p align="center">
+  <b>Capa de presentación:</b><br>
+  <img src="https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20view.png">
+</p>
+
+aaaa
