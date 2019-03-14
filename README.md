@@ -8,6 +8,8 @@ El gestor soporta la mayor parte de los datos que pueden ser almacenados en un a
 
 ![Sample contact](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/sample_contact.png)
 
+## Desarrollo
+
 Para poder importar los contactos de un archivo VCF a el gestor, se desarrolló un _parser_, utilizando <a href="https://javacc.org/">JavaCC</a> (Java Compiler Compiler) para transformar las expresiones regulares y gramáticas independientes del contexto necesarias para abordar el RFC 2425. A continuación se muestra un diagrama de dependencias de las clases que conforman el _parser_:
 
 ![Parser package](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20del%20paquete%20parser.PNG)
@@ -20,3 +22,14 @@ El desarrollo del gestor se realizó diviendo la funcionalidad del sistema en ca
 
 ![Package diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20de%20paquetes.png)
 
+La estructura general de las clases que conforman el gestor se pueden observar en el siguiente diagrama de clases de alto nivel:
+
+![Complete class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20completo.png)
+
+Para lograr apreciar con mayor detalle la estructura de las clases que componen las capas de software del gestor, se muestran los diagramas de clases de las capas de control, datos, modelo y presentación:
+
+![Model class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama_clases_modelo.png)
+
+![Data class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20controlYdata.png)
+
+![View class diagram](https://github.com/el-cid/gestion-de-contactos/blob/master/screenshots/diagrama%20clases%20view.png)
